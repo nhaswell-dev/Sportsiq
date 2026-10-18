@@ -1,0 +1,29 @@
+{
+  "_fixture_note": "Synthetic ESPN-shaped data for offline tests; not a captured ESPN response.",
+  "events": [
+    {
+      "id": "synthetic-game-101",
+      "date": "2026-09-13T17:00:00Z",
+      "competitions": [
+        {
+          "competitors": [
+            {"homeAway": "home", "team": {"id": "synthetic-team-home", "displayName": "Example Home"}},
+            {"homeAway": "away", "team": {"id": "synthetic-team-away", "displayName": "Example Away"}}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "synthetic-game-102",
+      "date": "2026-09-14T00:20:00Z",
+      "competitions": [
+        {
+          "competitors": [
+            {"homeAway": "home", "team": {"id": "synthetic-team-home-2", "displayName": "Example Home Two"}},
+            {"homeAway": "away", "team": {"id": "synthetic-team-away-2", "displayName": "Example Away Two"}}
+          ]
+        }
+      ]
+    }
+  ]
+}
