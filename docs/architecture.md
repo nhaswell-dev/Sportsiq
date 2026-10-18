@@ -1,8 +1,8 @@
-# SportsIQ architecture (Milestone 1.6)
+# SportsIQ architecture (Milestone 2A)
 
 ## Current execution boundary
 
-Only `sportsiq schedule --league nfl|nba --date YYYY-MM-DD --fixture PATH` is executable. It reads local synthetic JSON, filters by UTC start date, and prints normalized JSON; no HTTP transport, API keys, downloaded datasets, storage writes, or market/trading actions exist. The original CLI invocation with no `--league` remains NFL. The ESPN-shaped NFL source is fixture-only because automated extraction from ESPN is restricted without permission; public reachability is not authorization or a stable contract.[6]
+The default `sportsiq schedule --league nfl|nba --date YYYY-MM-DD --fixture PATH` reads local synthetic JSON. Explicit `--provider balldontlie` instead reads the project `.env` key and uses the official BALLDONTLIE Games endpoint for that league; it rejects `--fixture`. Both return normalized JSON for the requested UTC day. The NFL default and all existing fixture commands remain unchanged. There are no storage writes, market/trading actions, or live ESPN requests.[6]
 
 ## Shared domain
 
@@ -12,9 +12,9 @@ Use `(league, provider, provider_id)` as a source-scoped identity; do not join E
 
 ## Provider contracts and proposed stages
 
-- `ScheduleProvider.games_on(day)` returns normalized `Game` records. Source protocols keep fixture parsing independent of HTTP. `ESPNNFLScheduleProvider` reads only injected local ESPN-shaped fixtures. `NBAFixtureScheduleProvider` reads only injected local BALLDONTLIE-shaped fixtures. Neither represents a licensed live NBA/NFL feed.
+- `ScheduleProvider.games_on(day)` returns normalized `Game` records. Source protocols keep fixture parsing independent of HTTP. `ESPNNFLScheduleProvider` and `NBAFixtureScheduleProvider` remain offline. `BALLDONTLIEGamesProvider` selects the NFL or NBA Games endpoint through an injected `GamesClient`, normalizes IDs, lifecycle, teams and aware UTC starts, and rejects malformed records.
 - NFL historical candidate: nflverse release snapshots with dataset-specific attribution/license metadata. Its published update schedule does not guarantee that any given asset is complete or fresh; the FTN share-alike exception needs review before use.[1][2]
-- NFL and NBA current-schedule candidates: separate BALLDONTLIE read-only Games clients, only after an account/key is separately approved. The NBA Games endpoint is distinct from the NFL endpoint, and both free tiers allow Games but require keys and limit requests to 5/minute.[4][8] A later client must handle cursors, quotas/429, errors, schedule-date semantics, provenance, and source IDs. Paid player-stat endpoints are not implied by free game access.[4][8]
+- BALLDONTLIE Games client: constant HTTPS host and NFL/NBA paths; disabled redirects; project-local `.env` key only in Authorization; sanitized failures. UTC date queries cover adjacent provider dates and filter normalized UTC times; `per_page=100`, cursor cycle detection and ID deduplication cover pagination. Default timeout is 10 seconds, with a process-local 12.1-second request interval and at most two 429/5xx retries honoring Retry-After up to 60 seconds. Separate processes and other users of the key are not coordinated, so do not run concurrent quota consumers. The free tier allows Games, not paid stats.[4][8]
 - NBA historical research is a separate licensing choice: BALLDONTLIE offers an API-wide history claim but no guarantee of complete old box scores or player stats; historical player stats need a paid tier.[8] SportsDataIO offers NBA feeds and a historical Vault under a use-case-specific license; actual NBA years/fields, pricing, storage, model training and report rights require confirmation before selection.[9][10][11]
 
 ## Future market matching, not implemented
@@ -23,7 +23,7 @@ A separate read-only Kalshi adapter could collect market/event metadata and pric
 
 ## Known limitations and approval gates
 
-The NBA fixture is synthetic, not a captured provider payload; response schema and exact date behavior have not been validated against a live API. BALLDONTLIE calls need a separately approved account/key and tier entitlement. Its terms restrict competing services and resale of raw data, and do not guarantee timeliness.[5] nflverse release licenses and upstream rights vary by dataset, particularly FTN; SportsDataIO rights depend on a negotiated product/use-case license.[1][9] No live data freshness, actual season coverage, or historical asset completeness was tested. Do not connect data sources, scrape NBA.com/ESPN, or begin market integration without a separate milestone and permission.
+The NBA fixture is synthetic, not a captured provider payload. BALLDONTLIE calls require account/key and tier entitlement; its terms restrict competing services and resale of raw data, and do not guarantee timeliness.[5] nflverse licenses and SportsDataIO rights remain separate decisions.[1][9] Schedule date filtering follows the documented `dates[]` parameter; the adjacent-date query is conservative but does not guarantee completeness if source game dates are wrong. No market integration or historical ingestion is authorized.
 
 ## Sources
 
@@ -37,3 +37,5 @@ The NBA fixture is synthetic, not a captured provider payload; response schema a
 [9] https://sportsdata.io/help/data-rights-and-licensing-questions
 [10] https://sportsdata.io/help/historical-data-integration-guide
 [11] https://sportsdata.io/developers/api-documentation/nba
+[12] https://www.balldontlie.io/openapi/nfl.yml
+[13] https://www.balldontlie.io/openapi/nba.yml
