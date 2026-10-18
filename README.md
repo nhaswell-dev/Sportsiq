@@ -6,6 +6,14 @@ Offline-first NFL and NBA schedule normalization. Milestone 2B.5 connects explic
 
 Python 3.12+; no runtime or test dependencies beyond the standard library. Use the project-local `.venv`, separate from Hermes and global Python.
 
+### Required product scope (not all implemented)
+
+SportsIQ must support FOUR required leagues: NFL, NBA, NCAAF (college football), and NCAAB (college basketball). College coverage must declare division, season, and men's/women's competition explicitly rather than implying all NCAA competitions are covered. Milestone 2B.5 implements NFL/NBA only: the current CLI, domain enum, adapters, and SQLite league constraints do not yet support NCAAF/NCAAB. College integration requires a separately approved implementation and schema migration; these requirements do not enable it.
+
+The project must analyze single-game Kalshi opportunities and multileg Kalshi combinations, including same-league and mixed-league parlays across the four required leagues. Future read-only analysis must preserve each leg's game/market identity, cutoff, settlement rules, and price provenance, and account for dependence between legs instead of assuming independence. Hypothetical combinations must be labeled separately from combinations actually supported by Kalshi. This is an analysis requirement, not authorization for trading, order execution, or changes to the existing Kalshi Discord bot. No Kalshi analysis integration is implemented yet.
+
+Historical replay must use only information demonstrably available before each game's start, without outcome leakage. Every feature, ranking, injury/roster update, schedule version, and market price must be available by a recorded analysis cutoff strictly before the relevant game's start; later results, revised statistics, end-of-season aggregates, and post-cutoff prices cannot become inputs. For an initial multileg analysis, use one common cutoff before the earliest leg starts; do not incorporate an earlier leg's outcome into that original analysis. Record source publication/availability time separately from local retrieval time, use chronological training/evaluation splits, and keep outcomes only as later evaluation labels. Missing point-in-time evidence must be reported as a replay coverage gap, never reconstructed from today's final data. Current schedule rows/change history alone do not prove that a pregame snapshot existed.
+
 ## Tests
 
 From the project root:
@@ -83,6 +91,24 @@ The required `--date` is a UTC day. Each request explicitly filters three provid
 
 **Historical NBA options (separate decision).** BALLDONTLIE's broad NBA date-range claim is a possible historical-games source but is not proof of complete historical game/player coverage, and historical player stats are not in the free tier.[8] SportsDataIO documents a licensed NBA API and a historical Vault for prior-season team/player/game data; the exact years and fields vary by league and product, and its commercial license must cover the planned storage, modeling, and report/display use.[9][10][11] Neither source is approved for ingestion by this milestone. A data-access contract, dataset selection, coverage sample, licensing review, and cost decision are needed first.
 
+### College provider evaluation (verified October 18, 2026)
+
+The official BALLDONTLIE references document the following; no college data endpoint was called during this review.[14][15]
+
+| Required league | Documented Games endpoint | Published coverage | Free-tier limitations |
+| --- | --- | --- | --- |
+| NCAAF | `GET /ncaaf/v1/games` | 2004 onward, primarily FBS; non-FBS availability is not guaranteed | API key required; 5 requests/minute. Conferences, teams, players, active players, and standings are free; Games, rankings, and play-by-play require ALL-STAR or GOAT; player/team statistics require GOAT.[14] |
+| NCAAB | `GET /ncaab/v1/games` | 2003 onward; documentation describes Division I | API key required; 5 requests/minute. Conferences, teams, players, and standings are free; active players, Games, rankings, and play-by-play require ALL-STAR or GOAT; player/team statistics require GOAT.[15] |
+
+Both Games references support dates, seasons, team IDs, date ranges, and cursor pagination (25 default, 100 maximum); NCAAF additionally supports weeks.[14][15] Paid sport subscriptions do not automatically cover another sport; time-limited paid-tier trials requiring a payment method are not permanent free Games access.[14][15] Published historical ranges do not establish complete per-season coverage or pregame snapshot availability. Do not infer college Games entitlement from the NFL/NBA free Games access. No subscription, trial, college adapter, dependency, or paid endpoint request is authorized by this documentation update.
+
+Alternative authorized-access candidates for later evaluation:
+
+- SportsDataIO: official College Football and College Basketball APIs, accessed with an API key.[16][17] Its licensing FAQ permits storage and modeling under an appropriately scoped commercial license; confirm that the selected feeds and contract cover historical replay, betting-related analytics, and output display before use.[9]
+- Sportradar: official NCAA Football (NCAAFB) and NCAA Men's Basketball (NCAAMB) B2B APIs, with account-authenticated schedule/game feeds.[18][19] Evaluate them through the provider's approved account/contract process, not undocumented scraping; no SportsIQ entitlement is assumed.
+
+Neither alternative is selected or approved for ingestion. Before integration, confirm competition/division coverage, historical seasons and point-in-time archives, schedule/roster/stat/market fields, refresh cadence, quotas, total cost, and written storage/modeling/redistribution rights. Women's college basketball coverage must be evaluated separately. No free production feed or historical availability guarantee is inferred from documentation or trial access.
+
 **Provider boundary.** Keep `Game`/`Team` independent of source format and include `league` before any cross-provider match. The opt-in BALLDONTLIE adapters share a restricted read-only client; the NBA fixture parser remains synthetic. Do not assume identifiers match across providers or leagues. The ESPN-shaped NFL parser remains fixture-only; no live ESPN URL or transport is enabled.[6]
 
 **Kalshi boundary.** Kalshi documents unauthenticated public market-data endpoints, but no Kalshi integration exists in this milestone. Any future implementation must be separately scoped to read-only research, with no order placement or trading functions.[7]
@@ -116,3 +142,9 @@ The project-local `.venv` has no pip because system Python lacks `ensurepip`; th
 [11] https://sportsdata.io/developers/api-documentation/nba
 [12] https://www.balldontlie.io/openapi/nfl.yml
 [13] https://www.balldontlie.io/openapi/nba.yml
+[14] https://ncaaf.balldontlie.io
+[15] https://ncaab.balldontlie.io
+[16] https://sportsdata.io/developers/api-documentation/ncaa-football
+[17] https://sportsdata.io/developers/api-documentation/ncaa-basketball
+[18] https://developer.sportradar.com/football/docs/ncaafb-ig-api-basics
+[19] https://developer.sportradar.com/basketball/docs/ncaamb-ig-api-basics

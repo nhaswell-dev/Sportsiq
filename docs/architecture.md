@@ -6,6 +6,10 @@ The default `sportsiq schedule --league nfl|nba --date YYYY-MM-DD --fixture PATH
 
 ## Shared domain
 
+### Required target scope versus implemented scope
+
+The required target is FOUR leagues: NFL, NBA, NCAAF college football, and NCAAB college basketball. The current `League`, CLI choices, provider paths, and SQLite CHECK constraint remain NFL/NBA only. College support is a future explicit adapter/domain/schema change, not implemented by this requirements update. Record division, season, and men's/women's competition in the future coverage contract; source-specific college coverage is not universal NCAA coverage.
+
 `Game` has a `League` (`nfl`/`nba`), `GameStatus`, timezone-aware `start_time`, home/away `Team` values, and string-valued provider-ID maps. `Team` supports an optional abbreviation. Both fixture parsers convert aware starts to UTC and use `unknown` status when the fixture has no recognized lifecycle state. The NFL parser gives recognized specific status names (including postponed and canceled) precedence over broad pre/in/post states; unfamiliar names stay unknown rather than being mislabeled. The legacy four-positional-argument `Game` constructor defaults to NFL and unknown status; all new adapters must pass the league explicitly. The CLI's `--date` means UTC calendar day, not the provider's local game date. A future provider must not guess a missing NBA tipoff timestamp or treat a naive timestamp as local time.
 
 Use `(league, provider, provider_id)` as a source-scoped identity; do not join ESPN, BALLDONTLIE, nflverse, and Kalshi records just because names or dates resemble each other. Crosswalks should have review state, evidence, and versioned validity periods. Storage preserves game start separately from retrieval and material-write timestamps.
@@ -44,9 +48,19 @@ Writes use bound SQL parameters and `INSERT ... ON CONFLICT ... DO UPDATE`, neve
 
 Retention: current games and material changes are kept indefinitely, including cancellations. Absence from any response/fixture is not evidence of cancellation; only an explicit status update changes lifecycle state. There is no deletion, pruning, raw-response storage, scheduler, automatic live persistence, or retention policy enforcement. Archived fixture replay must supply its actual retrieval time to avoid false freshness. The database is rebuildable local research state and must be backed up locally if its history matters. Database files/SQLite sidecars, temporary files, `.env`, and `.env.save` are ignored by Git; existing backups are never removed. Licensing/storage rights for future real datasets remain a separate approval gate.
 
-## Future market matching, not implemented
+## Required Kalshi analysis and historical replay (not implemented)
 
-A separate read-only Kalshi adapter could collect market/event metadata and price snapshots from its documented public endpoints.[7] Keep a reviewable `(league, game provider ID) <-> (Kalshi event/market ID)` crosswalk, including team identity, scheduled start, exact proposition/settlement rules, as-of times, confidence and ambiguity flags. Never infer a bet recommendation from a name match or a stale quote. No authenticated API access, order methods, trade execution or automatic market matching is approved here. Analysis and report modules remain placeholders.
+SportsIQ must analyze single-game and multileg Kalshi combinations, including mixed-league parlays across NFL, NBA, NCAAF, and NCAAB. A future read-only adapter may collect market/event metadata and price snapshots through documented market-data endpoints.[7] Keep a reviewable `(league, game provider ID) <-> (Kalshi event/market ID)` crosswalk, including team identity, scheduled start, exact proposition/settlement rules, as-of times, confidence and ambiguity flags. Preserve per-leg provenance and evaluate joint dependence; multiplying marginal probabilities without justified independence is not sufficient. Label hypothetical research combinations separately from provider-supported products; do not assume every cross-league combination is available. No authenticated API access, order methods, trade execution, Discord bot changes, or automatic market matching is approved here. Analysis and report modules remain placeholders.
+
+Historical replay must use information available before each game's start, without outcome leakage. Each replay records a decision cutoff strictly before tipoff/kickoff, the start-time version known at that cutoff, and source availability/publication and retrieval timestamps. As-of joins must exclude later corrections, game outcomes, post-cutoff prices, future rankings, and season-end aggregates from inputs; final results are evaluation labels only. Training and validation must be chronological and restricted to information available at the decision cutoff. For an initial multileg/parlay decision, the common cutoff must precede the earliest leg's start; a later leg cannot use an earlier leg's outcome in that original decision. Any separately modeled later decision needs its own cutoff and cannot overwrite the original replay.
+
+Point-in-time snapshots, market-price history, and feature/model provenance are future prerequisites. Current `retrieved_at` records local observation, not proof of earlier public availability, and the existing two-table schedule store is not a complete replay archive. Reject or label missing pregame evidence as a coverage gap instead of backfilling current/final data. Do not infer historical snapshot availability from a provider's historical game range.
+
+## College data approval gate (documentation reviewed October 18, 2026)
+
+BALLDONTLIE documents `GET /ncaaf/v1/games` and `GET /ncaab/v1/games`; both require ALL-STAR or GOAT, not the permanent free tier, and player/team statistics require GOAT.[14][15] Free accounts require a key and allow 5 requests/minute; a paid-tier trial is time-limited, not permanent free schedule entitlement.[14][15] NCAAF coverage is primarily FBS from 2004 with no non-FBS guarantee; NCAAB describes Division I from 2003.[14][15] Both use cursor pagination with 25 default/100 maximum; the README records free endpoint differences and query filters.[14][15] No college API requests, trials, subscriptions, college integrations, or dependencies are added here.
+
+Evaluate authorized alternatives through SportsDataIO's College Football/College Basketball APIs and Sportradar's NCAAFB/NCAAMB B2B APIs.[16][17][18] Sportradar's NCAAMB reference describes authenticated schedule/game retrieval separately.[19] SportsDataIO permits storage/modeling under a suitably scoped commercial license, not a blanket grant for every feed/use case.[9] Selection requires explicit competition coverage, historical point-in-time evidence, cost/quota review, and written rights covering storage, analytics and outputs; no account entitlement or free production access is presumed. These are later-evaluation candidates only, not enabled sources.
 
 ## Known limitations and approval gates
 
@@ -66,3 +80,9 @@ The NBA fixture is synthetic, not a captured provider payload. BALLDONTLIE calls
 [11] https://sportsdata.io/developers/api-documentation/nba
 [12] https://www.balldontlie.io/openapi/nfl.yml
 [13] https://www.balldontlie.io/openapi/nba.yml
+[14] https://ncaaf.balldontlie.io
+[15] https://ncaab.balldontlie.io
+[16] https://sportsdata.io/developers/api-documentation/ncaa-football
+[17] https://sportsdata.io/developers/api-documentation/ncaa-basketball
+[18] https://developer.sportradar.com/football/docs/ncaafb-ig-api-basics
+[19] https://developer.sportradar.com/basketball/docs/ncaamb-ig-api-basics
