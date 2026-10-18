@@ -1,0 +1,42 @@
+{
+  "fixture_kind": "synthetic; not the historical reference combo",
+  "combo_market": {
+    "ticker": "KXMVECROSSCATEGORY-SYNTHETIC-EXAMPLE",
+    "event_ticker": "KXMVECROSSCATEGORY-SYNTHETIC",
+    "title": "Synthetic mixed-league combo",
+    "mve_selected_legs": [
+      {"event_ticker": "KXNFLGAME-26OCT18EXAMPLE", "market_ticker": "KXNFLGAME-26OCT18EXAMPLE-HOME", "side": "yes"},
+      {"event_ticker": "KXNCAAFGAME-26OCT17EXAMPLE", "market_ticker": "KXNCAAFGAME-26OCT17EXAMPLE-AWAY", "side": "no"}
+    ]
+  },
+  "underlying_markets": [
+    {
+      "ticker": "KXNFLGAME-26OCT18EXAMPLE-HOME",
+      "event_ticker": "KXNFLGAME-26OCT18EXAMPLE",
+      "title": "Synthetic NFL Home wins",
+      "yes_sub_title": "Synthetic NFL Home",
+      "no_sub_title": "Synthetic NFL Home",
+      "rules_primary": "If Synthetic NFL Home wins the synthetic matchup, then Yes.",
+      "occurrence_datetime": "2026-10-18T20:00:00Z",
+      "updated_time": "2026-10-17T12:00:00Z",
+      "example_extra_metadata": {"preserved": true}
+    },
+    {
+      "ticker": "KXNCAAFGAME-26OCT17EXAMPLE-AWAY",
+      "event_ticker": "KXNCAAFGAME-26OCT17EXAMPLE",
+      "title": "Synthetic College Away wins",
+      "yes_sub_title": "Synthetic College Away",
+      "no_sub_title": "Synthetic College Away",
+      "rules_primary": "If Synthetic College Away wins the synthetic matchup, then Yes.",
+      "occurrence_datetime": "2026-10-17T20:00:00Z"
+    }
+  ],
+  "milestones": [
+    {
+      "related_event_tickers": ["KXNFLGAME-26OCT18EXAMPLE"],
+      "start_date": "2026-10-18T17:00:00Z",
+      "last_updated_ts": "2026-10-17T12:00:00Z",
+      "title": "Synthetic NFL Away at Synthetic NFL Home"
+    }
+  ]
+}

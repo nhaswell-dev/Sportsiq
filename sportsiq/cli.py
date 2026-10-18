@@ -14,6 +14,10 @@ from sportsiq.providers.base import ScheduleProvider
 from sportsiq.providers.espn_nfl import ESPNNFLScheduleProvider
 from sportsiq.providers.fixture import FixtureScheduleSource, FixtureScoreboardSource
 from sportsiq.providers.nba_schedule import NBAFixtureScheduleProvider
+from sportsiq.providers.kalshi import (
+    KalshiClient, KalshiError, MAX_RESPONSE_BYTES, decode_metadata, extract_parlay, fetch_parlay, parse_kalshi_url,
+)
+from sportsiq.reports.parlay import parlay_summary
 from sportsiq.storage.schedule import DEFAULT_DATABASE, ScheduleStore, validate_record
 
 PROJECT_ENV = Path(__file__).resolve().parent.parent / ".env"
@@ -37,6 +41,13 @@ def _project_key() -> str:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="sportsiq")
     subcommands = parser.add_subparsers(dest="command", required=True)
+    parlay = subcommands.add_parser("kalshi-parlay", help="Read-only Kalshi combo discovery (no predictions)")
+    parlay.add_argument("--url", required=True, help="Exact Kalshi URL including marketTicker")
+    parlay_source = parlay.add_mutually_exclusive_group(required=True)
+    parlay_source.add_argument("--offline", type=Path, metavar="FIXTURE", help="Local metadata bundle; no network")
+    parlay_source.add_argument("--live", action="store_true", help="Explicit public market-data GETs")
+    parlay.add_argument("--format", choices=("json", "summary"), default="json")
+    parlay.add_argument("--no-retries", action="store_true", help="Live only: at most two HTTP attempts total")
     schedule = subcommands.add_parser("schedule", help="Query an NFL or NBA schedule")
     schedule.add_argument("--league", choices=[league.value for league in League], default="nfl")
     schedule.add_argument("--date", required=True, type=date.fromisoformat, help="UTC date (YYYY-MM-DD)")
@@ -62,6 +73,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         command.add_argument("--league", choices=[league.value for league in League])
         command.add_argument("--provider")
     args = parser.parse_args(argv)
+
+    if args.command == "kalshi-parlay":
+        if args.no_retries and not args.live:
+            parser.error("--no-retries requires --live")
+        try:
+            link = parse_kalshi_url(args.url)
+            if args.offline is not None:
+                with args.offline.open("rb") as fixture:
+                    body = fixture.read(MAX_RESPONSE_BYTES + 1)
+                result = extract_parlay(link, decode_metadata(body), source="offline")
+            else:
+                client = KalshiClient(max_retries=0 if args.no_retries else 2,
+                                      max_requests=2 if args.no_retries else 6)
+                result = fetch_parlay(link, client)
+        except KalshiError as error:
+            parser.error(str(error))
+        except (OSError, UnicodeError, ValueError, RecursionError):
+            parser.error("unable to read valid Kalshi fixture JSON")
+        print(json.dumps(asdict(result), indent=2) if args.format == "json" else parlay_summary(result))
+        return 0
 
     if args.command == "import-live-schedule":
         if args.single_request and not args.dry_run:

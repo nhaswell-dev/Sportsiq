@@ -1,6 +1,6 @@
 # SportsIQ
 
-Offline-first NFL and NBA schedule normalization. Milestone 2B.5 connects explicit live BALLDONTLIE imports to Milestone 2B's SQLite validation, UPSERTs, and change history. The default remains local fixtures; there is no trading or market integration.
+Offline-first NFL and NBA schedule normalization. Milestone 2B.5 connects explicit live BALLDONTLIE imports to Milestone 2B's SQLite validation, UPSERTs, and change history. Milestone 2C adds separate, opt-in read-only Kalshi parlay extraction. Defaults remain offline; there is no trading or predictive market analysis.
 
 ## Requirements
 
@@ -8,9 +8,9 @@ Python 3.12+; no runtime or test dependencies beyond the standard library. Use t
 
 ### Required product scope (not all implemented)
 
-SportsIQ must support FOUR required leagues: NFL, NBA, NCAAF (college football), and NCAAB (college basketball). College coverage must declare division, season, and men's/women's competition explicitly rather than implying all NCAA competitions are covered. Milestone 2B.5 implements NFL/NBA only: the current CLI, domain enum, adapters, and SQLite league constraints do not yet support NCAAF/NCAAB. College integration requires a separately approved implementation and schema migration; these requirements do not enable it.
+SportsIQ must support FOUR required leagues: NFL, NBA, NCAAF (college football), and NCAAB (college basketball). College coverage must declare division, season, and men's/women's competition explicitly rather than implying all NCAA competitions are covered. Schedule commands, the schedule domain enum, adapters, and SQLite league constraints remain NFL/NBA only. Milestone 2C classifies known Kalshi game-winner series across all four leagues in separate discovery records; this does not enable college schedule ingestion. College schedule integration requires a separately approved implementation and schema migration.
 
-The project must analyze single-game Kalshi opportunities and multileg Kalshi combinations, including same-league and mixed-league parlays across the four required leagues. Future read-only analysis must preserve each leg's game/market identity, cutoff, settlement rules, and price provenance, and account for dependence between legs instead of assuming independence. Hypothetical combinations must be labeled separately from combinations actually supported by Kalshi. This is an analysis requirement, not authorization for trading, order execution, or changes to the existing Kalshi Discord bot. No Kalshi analysis integration is implemented yet.
+The project must analyze single-game Kalshi opportunities and multileg Kalshi combinations, including same-league and mixed-league parlays across the four required leagues. Future read-only analysis must preserve each leg's game/market identity, cutoff, settlement rules, and price provenance, and account for dependence between legs instead of assuming independence. Hypothetical combinations must be labeled separately from combinations actually supported by Kalshi. This is an analysis requirement, not authorization for trading, order execution, or changes to the existing Kalshi Discord bot. No predictive Kalshi analysis integration is implemented yet; Milestone 2C is extraction only.
 
 Historical replay must use only information demonstrably available before each game's start, without outcome leakage. Every feature, ranking, injury/roster update, schedule version, and market price must be available by a recorded analysis cutoff strictly before the relevant game's start; later results, revised statistics, end-of-season aggregates, and post-cutoff prices cannot become inputs. For an initial multileg analysis, use one common cutoff before the earliest leg starts; do not incorporate an earlier leg's outcome into that original analysis. Record source publication/availability time separately from local retrieval time, use chronological training/evaluation splits, and keep outcomes only as later evaluation labels. Missing point-in-time evidence must be reported as a replay coverage gap, never reconstructed from today's final data. Current schedule rows/change history alone do not prove that a pregame snapshot existed.
 
@@ -21,6 +21,12 @@ From the project root:
     .venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v
 
 On another machine, create a local environment with `python3 -m venv .venv` first. If `ensurepip` is unavailable, `python3 -m venv --without-pip .venv` suffices.
+
+## Read-only Kalshi parlay extraction (Milestone 2C)
+
+    .venv/bin/python -m sportsiq kalshi-parlay --url 'https://kalshi.com/markets/kxmvecrosscategory/synthetic/KXMVECROSSCATEGORY-SYNTHETIC?marketTicker=KXMVECROSSCATEGORY-SYNTHETIC-EXAMPLE' --offline tests/fixtures/kalshi_parlay.json --format summary
+
+Choose explicit `--offline FIXTURE` or `--live`; output is structured JSON by default, or readable `--format summary`. The fixture is synthetic, not the historical reference combo. `--live --no-retries` permits one bounded workflow of at most two public HTTP attempts. No credentials, database, predictions, confidence grades, recommendations, or order operations are used. Exact selection identifiers, original metadata, distinct source time fields and gaps are retained. See `docs/kalshi-parlay.md` for the reference URL, safe live verification, fixture contract, classification limits, and historical-data caveats.
 
 ## Sample schedule queries (offline fixtures)
 
@@ -111,7 +117,7 @@ Neither alternative is selected or approved for ingestion. Before integration, c
 
 **Provider boundary.** Keep `Game`/`Team` independent of source format and include `league` before any cross-provider match. The opt-in BALLDONTLIE adapters share a restricted read-only client; the NBA fixture parser remains synthetic. Do not assume identifiers match across providers or leagues. The ESPN-shaped NFL parser remains fixture-only; no live ESPN URL or transport is enabled.[6]
 
-**Kalshi boundary.** Kalshi documents unauthenticated public market-data endpoints, but no Kalshi integration exists in this milestone. Any future implementation must be separately scoped to read-only research, with no order placement or trading functions.[7]
+**Kalshi boundary.** Milestone 2C uses documented public market-data GETs for opt-in combo/leg discovery only.[7] It never opens SQLite or reads credentials; no order placement, trading, price-history ingestion, predictions, or historical replay is implemented. See `docs/kalshi-parlay.md`.
 
 ## Dependency and integration decisions
 
