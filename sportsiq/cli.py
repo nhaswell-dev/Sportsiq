@@ -4,7 +4,7 @@ import argparse
 import json
 import sqlite3
 from dataclasses import asdict
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Sequence
 
@@ -14,7 +14,7 @@ from sportsiq.providers.base import ScheduleProvider
 from sportsiq.providers.espn_nfl import ESPNNFLScheduleProvider
 from sportsiq.providers.fixture import FixtureScheduleSource, FixtureScoreboardSource
 from sportsiq.providers.nba_schedule import NBAFixtureScheduleProvider
-from sportsiq.storage.schedule import DEFAULT_DATABASE, ScheduleStore
+from sportsiq.storage.schedule import DEFAULT_DATABASE, ScheduleStore, validate_record
 
 PROJECT_ENV = Path(__file__).resolve().parent.parent / ".env"
 
@@ -46,17 +46,47 @@ def main(argv: Sequence[str] | None = None) -> int:
     importer.add_argument("--fixture", type=Path, required=True)
     importer.add_argument("--provider", required=True, help="Provider namespace in fixture provider_ids")
     importer.add_argument("--retrieved-at", help="Actual observation time; defaults to import time")
+    live = subcommands.add_parser("import-live-schedule", help="Explicit BALLDONTLIE schedule ingestion")
+    live.add_argument("--league", choices=[league.value for league in League], required=True)
+    live.add_argument("--date", required=True, type=date.fromisoformat, help="UTC calendar date")
+    live.add_argument("--dry-run", action="store_true", help="Fetch and validate without opening SQLite")
+    live.add_argument("--single-request", action="store_true", help="Dry-run only: one page, no retries")
     stored = subcommands.add_parser("stored-schedule", help="Query persisted schedules")
     stored.add_argument("--date", type=date.fromisoformat, help="UTC calendar date")
     stale = subcommands.add_parser("stale-schedules", help="Report records older than the retrieval threshold")
     stale.add_argument("--hours", type=float, default=24)
     stale.add_argument("--now", help="Explicit timezone-aware reference time for offline reports")
-    for command in (importer, stored, stale):
+    for command in (importer, live, stored, stale):
         command.add_argument("--database", type=Path, default=DEFAULT_DATABASE)
     for command in (stored, stale):
         command.add_argument("--league", choices=[league.value for league in League])
         command.add_argument("--provider")
     args = parser.parse_args(argv)
+
+    if args.command == "import-live-schedule":
+        if args.single_request and not args.dry_run:
+            parser.error("--single-request requires --dry-run")
+        try:
+            client = GamesClient(_project_key(), max_retries=0 if args.single_request else 2)
+            provider = BALLDONTLIEGamesProvider(League(args.league), client)
+            collection = provider.collect_on(args.date, max_pages=1 if args.single_request else None)
+            records = [{**asdict(game), "start_time": game.start_time.isoformat()} for game in collection.games]
+            for record in records:
+                validate_record(record, "balldontlie")
+            retrieved = datetime.now(timezone.utc).isoformat(timespec="microseconds")
+            imported = 0
+            if not args.dry_run:
+                with ScheduleStore(args.database) as store:
+                    imported = store.import_records(records, "balldontlie", retrieved_at=retrieved)
+        except (ProviderError, ValueError) as error:
+            parser.error(str(error))
+        except (OSError, sqlite3.Error):
+            parser.error("unable to access schedule database")
+        print(json.dumps({"league": args.league, "date": args.date.isoformat(), "provider": "balldontlie",
+                          "dry_run": args.dry_run, "complete": collection.complete,
+                          "pages": collection.pages, "validated": len(records), "imported": imported,
+                          "excluded": collection.excluded, "retrieved_at": retrieved}, indent=2))
+        return 0
 
     if args.command != "schedule":
         try:

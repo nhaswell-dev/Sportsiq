@@ -1,4 +1,4 @@
-# SportsIQ architecture (Milestone 2B)
+# SportsIQ architecture (Milestone 2B.5)
 
 ## Current execution boundary
 
@@ -18,6 +18,12 @@ Use `(league, provider, provider_id)` as a source-scoped identity; do not join E
 - NBA historical research is a separate licensing choice: BALLDONTLIE offers an API-wide history claim but no guarantee of complete old box scores or player stats; historical player stats need a paid tier.[8] SportsDataIO offers NBA feeds and a historical Vault under a use-case-specific license; actual NBA years/fields, pricing, storage, model training and report rights require confirmation before selection.[9][10][11]
 
 ## SQLite schedule storage
+
+Milestone 2B.5 adds only explicit orchestration: `import-live-schedule --league nfl|nba --date YYYY-MM-DD [--database PATH] [--dry-run [--single-request]]`. It loads the existing project-local key, constructs the existing `GamesClient` and `BALLDONTLIEGamesProvider`, and calls `collect_on` for normalized games, excluded source timestamps, successful page count, and cursor-completion state. `games_on` remains the list-returning schedule interface, using the same collection/normalization path. There is no second HTTP client, scheduler, or schema migration.
+
+Collection finishes and retained records pass `validate_record` before opening `ScheduleStore`; `import_records` revalidates and performs its existing atomic transaction. The default location remains project-root `data/sportsiq.sqlite3`. Source instants become UTC without changing the actual game time; out-of-UTC-day records are reported, not persisted or coerced onto the queried date. Original offset strings appear in exclusion reports; raw responses are not archived. Retrieval time is captured after collection/validation. Errors on any page prevent all persistence; transaction failures roll back games and history together.
+
+Dry runs never instantiate `ScheduleStore`, including for an existing database. `--single-request` requires dry-run, disables HTTP retries, and sets a one-page collection limit. A remaining cursor yields `complete: false` with validated partial counts and zero imports; regular ingestion traverses all pages or fails. Completion describes the response cursor chain, not guaranteed source coverage. Metadata must be an object; a full page needs an explicit next/terminal cursor (using the returned `per_page` when present). Short pages with empty metadata remain compatible terminal responses. Existing cursor-cycle checks, throttling, timeout, bounded retries, transport/JSON sanitization, and ID deduplication are reused; partial HTTP reads also become sanitized failures. See the README's safe manual verification procedure before any live request.
 
 `sportsiq/storage/schedule.py` owns standard-library `sqlite3` persistence. Default location: project-root `data/sportsiq.sqlite3`; each storage command accepts `--database PATH`. No dependencies, PostgreSQL, Docker, or external services are added. Tables are initialized on first open; no prior persistent schema exists to migrate in this milestone.
 

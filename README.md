@@ -1,6 +1,6 @@
 # SportsIQ
 
-Offline-first NFL and NBA schedule normalization. Milestone 2B adds SQLite persistence, validation, and change history through offline imports. Milestone 2A's opt-in, read-only BALLDONTLIE Games requests remain unchanged. The default remains local fixtures; there is no trading or market integration.
+Offline-first NFL and NBA schedule normalization. Milestone 2B.5 connects explicit live BALLDONTLIE imports to Milestone 2B's SQLite validation, UPSERTs, and change history. The default remains local fixtures; there is no trading or market integration.
 
 ## Requirements
 
@@ -38,7 +38,31 @@ SQLite uses a `games` table with scalar league, provider, provider game ID, home
 
 Every material update, including team corrections, postponements, start-time changes, and explicit cancellations, appends old/new game snapshots to `game_changes` in the same transaction. Unchanged observations do not create history. Missing games or empty imports never imply cancellation. Rows and history are retained indefinitely with no pruning, deletion command, raw-response archive, or automatic refresh. Keep local backups outside Git; database/sidecar/temp files, `.env`, and `.env.save` are ignored, not deleted. SQLite is local research storage, not a cross-provider team registry. Detailed schema and retention semantics are in `docs/architecture.md`.
 
-The existing `schedule` command remains read-only and does not write the database. These three new commands never read credentials or contact an API. PostgreSQL and live-import orchestration are out of scope.
+The existing `schedule` command remains read-only and does not write the database. These three offline storage commands never read credentials or contact an API. PostgreSQL remains out of scope.
+
+## Explicit live schedule ingestion (Milestone 2B.5)
+
+From the project root, import one league and UTC date at a time:
+
+    .venv/bin/python -m sportsiq import-live-schedule --league nfl --date 2026-10-18
+    .venv/bin/python -m sportsiq import-live-schedule --league nba --date 2026-10-21 --database data/sportsiq.sqlite3
+
+Both `--league nfl|nba` and `--date YYYY-MM-DD` are required; the provider is always BALLDONTLIE. Credentials use the same project-root `.env` loader described below, never command-line arguments. The default database is `/home/hermesdev/development/sportsiq/data/sportsiq.sqlite3` in this checkout (project-root `data/sportsiq.sqlite3` elsewhere). `--database PATH` overrides it; relative overrides are relative to the working directory.
+
+The date means the half-open UTC interval `[00:00:00, next day 00:00:00)`, not provider-local date. The shared adapter queries previous/current/next provider dates and follows all cursor pages before opening SQLite. Provider start-time instants are preserved, converted to UTC rather than moved onto the requested date. Excluded out-of-day records are reported in JSON `excluded` with provider game ID, original `source_timestamp`, UTC `start_time`, and reason; they are not persisted or treated as cancellations. Original offset spelling/raw payloads are not archived. Records with missing/naive/malformed starts or invalid teams fail the collection, including malformed out-of-day records.
+
+All retained games pass the existing storage validator before database access. The existing transaction, parameterized UPSERT, identity constraint, and change-history operations are reused without schema changes. Repeated imports refresh observation time without duplicating rows/history; changes update the same row and append history atomically. A failure on a later API page writes nothing, and database failures roll back the batch and history. Missing games never imply cancellation. `retrieved_at` is the UTC time collection/validation finished, distinct from the provider start time; no provider last-modified value is invented.
+
+JSON output reports `league`, `date`, `provider`, `dry_run`, `complete`, successful `pages`, unique retained `validated` count, `imported` count, exclusions, and retrieval time. `imported` counts processed records, not new rows. Completion means cursor traversal finished, not a guarantee of the provider's real-world schedule coverage. Missing/malformed metadata, full pages without a terminal/continuation cursor, invalid cursors/cycles, malformed records, transport/JSON errors, and HTTP failures abort with sanitized CLI errors (exit 2). Short pages with an empty metadata object are terminal. Normal imports retain the existing timeout, throttling, and bounded 429/5xx retries.
+
+### Safe manual verification
+
+First run the complete offline suite above. Only after it passes, use dry-run mode to fetch/normalize/validate without opening, creating, or modifying any database, directory, schema, row, or history:
+
+    .venv/bin/python -m sportsiq import-live-schedule --league nfl --date 2026-10-18 --dry-run --single-request
+    .venv/bin/python -m sportsiq import-live-schedule --league nba --date 2026-10-21 --dry-run --single-request
+
+`--single-request` is allowed only with `--dry-run`: it disables retries and stops after the first page, limiting each invocation to at most one HTTP request. If a next cursor exists, JSON says `complete: false`; this is partial verification only, not a complete schedule. Stop on any error; do not rerun to spend additional requests during a capped verification. `--dry-run` without `--single-request` follows all pages and allows normal retries, so it is not suitable for a one-request budget. Do not run simultaneous quota consumers. Inspect only summary counts, never headers, keys, or raw response bodies. A successful dry-run requires a separate explicit invocation without `--dry-run` to persist anything. No jobs, cron, automatic ingestion, or trading are configured.
 
 ## Opt-in BALLDONTLIE Games (read-only)
 

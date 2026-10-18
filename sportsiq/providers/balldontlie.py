@@ -3,7 +3,9 @@
 import json
 import threading
 import time
+from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
+from http.client import HTTPException
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -72,9 +74,14 @@ class GamesClient:
                     payload = json.load(response)
                 if not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
                     raise ProviderError("Malformed BALLDONTLIE games response")
-                meta = payload.get("meta", {})
+                meta = payload.get("meta")
                 if not isinstance(meta, dict):
                     raise ProviderError("Malformed BALLDONTLIE pagination metadata")
+                per_page = meta.get("per_page", 100)
+                if not isinstance(per_page, int) or isinstance(per_page, bool) or not 1 <= per_page <= 100:
+                    raise ProviderError("Malformed BALLDONTLIE page size")
+                if len(payload["data"]) >= per_page and "next_cursor" not in meta:
+                    raise ProviderError("Incomplete BALLDONTLIE pagination metadata")
                 return payload
             except HTTPError as error:
                 if error.code in (401, 403):
@@ -91,9 +98,17 @@ class GamesClient:
                 if not 0 < delay <= 60:
                     raise ProviderError("BALLDONTLIE rate limit retry delay exceeds 60 seconds") from None
                 self.sleep(delay)
-            except (URLError, TimeoutError, OSError, json.JSONDecodeError, UnicodeError):
+            except (URLError, TimeoutError, OSError, HTTPException, json.JSONDecodeError, UnicodeError):
                 raise ProviderError("BALLDONTLIE transport or JSON response failed") from None
         raise AssertionError("unreachable")
+
+
+@dataclass
+class ScheduleCollection:
+    games: list[Game]
+    excluded: list[dict[str, str]]
+    pages: int
+    complete: bool
 
 
 class BALLDONTLIEGamesProvider:
@@ -104,27 +119,40 @@ class BALLDONTLIEGamesProvider:
         self.client = client
 
     def games_on(self, day: date) -> list[Game]:
+        return self.collect_on(day).games
+
+    def collect_on(self, day: date, *, max_pages: int | None = None) -> ScheduleCollection:
         # The provider filters by game date, while the domain query is UTC day.
         # Include neighboring provider dates to account for timezone rollover.
         days = [day - timedelta(days=1), day, day + timedelta(days=1)]
         games: list[Game] = []
+        excluded: list[dict[str, str]] = []
+        pages = 0
         seen_cursors: set[int] = set()
         seen_games: set[str] = set()
         cursor = None
         while True:
             payload = self.client.page(self.league, days, cursor)
+            pages += 1
             for record in payload["data"]:
                 game = self._normalize(record)
                 identifier = game.provider_ids["balldontlie"]
                 if game.start_time.date() == day and identifier not in seen_games:
                     seen_games.add(identifier)
                     games.append(game)
+                elif game.start_time.date() != day:
+                    excluded.append({"provider_game_id": identifier,
+                                     "source_timestamp": record["date" if self.league == League.NFL else "datetime"],
+                                     "start_time": game.start_time.isoformat(),
+                                     "reason": "outside requested UTC date"})
             cursor = payload.get("meta", {}).get("next_cursor")
             if cursor is None:
-                return games
+                return ScheduleCollection(games, excluded, pages, True)
             if not isinstance(cursor, int) or isinstance(cursor, bool) or cursor < 0 or cursor in seen_cursors:
                 raise ProviderError("Malformed BALLDONTLIE pagination cursor")
             seen_cursors.add(cursor)
+            if max_pages is not None and pages >= max_pages:
+                return ScheduleCollection(games, excluded, pages, False)
 
     def _normalize(self, record: Any) -> Game:
         try:
@@ -138,7 +166,11 @@ class BALLDONTLIEGamesProvider:
                 raise ValueError()
             def team(value):
                 if (not isinstance(value, dict) or not isinstance(value.get("full_name"), str)
+                        or not value["full_name"].strip()
                         or not isinstance(value.get("id"), int) or isinstance(value.get("id"), bool)):
+                    raise ValueError()
+                abbreviation = value.get("abbreviation")
+                if abbreviation is not None and (not isinstance(abbreviation, str) or not abbreviation.strip()):
                     raise ValueError()
                 return Team(value["full_name"], {"balldontlie": str(value["id"])},
                             value.get("abbreviation"))
@@ -149,7 +181,10 @@ class BALLDONTLIEGamesProvider:
                 status = GameStatus.UNKNOWN
             if not isinstance(record.get("id"), int) or isinstance(record.get("id"), bool):
                 raise ValueError()
-            return Game(home=team(record["home_team"]), away=team(record["visitor_team"]),
+            home, away = team(record["home_team"]), team(record["visitor_team"])
+            if home.provider_ids == away.provider_ids:
+                raise ValueError()
+            return Game(home=home, away=away,
                         start_time=start.astimezone(timezone.utc),
                         provider_ids={"balldontlie": str(record["id"])},
                         league=self.league, status=status)
