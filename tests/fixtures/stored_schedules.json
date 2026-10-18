@@ -1,0 +1,18 @@
+[
+  {
+    "league": "nfl",
+    "provider_ids": {"balldontlie": "synthetic-nfl-storage-1"},
+    "home": {"name": "Example NFL Home", "provider_ids": {"balldontlie": "synthetic-nfl-home"}},
+    "away": {"name": "Example NFL Away", "provider_ids": {"balldontlie": "synthetic-nfl-away"}},
+    "start_time": "2026-10-18T17:00:00Z",
+    "status": "scheduled"
+  },
+  {
+    "league": "nba",
+    "provider_ids": {"balldontlie": "synthetic-nba-storage-1"},
+    "home": {"name": "Example NBA Home", "provider_ids": {"balldontlie": "synthetic-nba-home"}, "abbreviation": "HOM"},
+    "away": {"name": "Example NBA Away", "provider_ids": {"balldontlie": "synthetic-nba-away"}, "abbreviation": "AWY"},
+    "start_time": "2026-10-20T23:30:00-04:00",
+    "status": "scheduled"
+  }
+]

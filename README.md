@@ -1,6 +1,6 @@
 # SportsIQ
 
-Offline-first NFL and NBA schedule normalization. Milestone 2A adds opt-in, read-only BALLDONTLIE Games requests. The default remains local fixtures; there is no trading or market integration.
+Offline-first NFL and NBA schedule normalization. Milestone 2B adds SQLite persistence, validation, and change history through offline imports. Milestone 2A's opt-in, read-only BALLDONTLIE Games requests remain unchanged. The default remains local fixtures; there is no trading or market integration.
 
 ## Requirements
 
@@ -20,6 +20,25 @@ On another machine, create a local environment with `python3 -m venv .venv` firs
     .venv/bin/python -m sportsiq schedule --league nba --date 2026-10-21 --fixture tests/fixtures/nba_games.json
 
 `--league` defaults to `nfl`, so the original command without it still works. Both fixtures are synthetic and contain no actual games. Dates passed to the CLI are UTC calendar dates: the NBA fixture deliberately has a local October 20 start that becomes October 21 in UTC. `Game.start_time` is timezone-aware and normalized to UTC; missing or naive NBA tipoff times are rejected. Provider IDs remain string-valued and namespaced by provider, with an explicit `league` and normalized `status`. The NFL fixture omits status, so its output is `unknown`. No cross-provider game/market joins are attempted. See `docs/architecture.md` for model and adapter boundaries.
+
+## Persistent schedules (Milestone 2B, offline only)
+
+    .venv/bin/python -m sportsiq import-schedule --provider balldontlie --fixture tests/fixtures/stored_schedules.json
+    .venv/bin/python -m sportsiq stored-schedule --league nfl --date 2026-10-18
+    .venv/bin/python -m sportsiq stored-schedule --league nba --date 2026-10-21
+    .venv/bin/python -m sportsiq stale-schedules --hours 24
+
+All three commands accept `--database PATH`; the default is project-root `data/sportsiq.sqlite3`, independent of the working directory. Parent directories and tables are created automatically. Stored queries accept optional `--league`, `--provider`, and UTC `--date`; stale reports accept optional `--league`, `--provider`, and an aware ISO 8601 `--now` for reproducibility. An absent database is initialized empty. Output is JSON; validation failures exit with code 2 and a record number/field error.
+
+Import files must be normalized JSON arrays shaped like the existing `schedule` output, not raw ESPN, NBA, or BALLDONTLIE responses. See the synthetic mixed-league `tests/fixtures/stored_schedules.json`. Each record requires `league`, `provider_ids`, `home`, `away`, `start_time`, and `status`. The explicit `--provider` selects a namespace present in the game and both team ID maps (`espn` for the NFL fixture parser, `balldontlie` for the NBA fixture parser and live adapters). IDs must already be nonempty strings. Teams require distinct source IDs and nonblank names; abbreviations are optional strings. Invalid/missing IDs, incomplete teams, invalid statuses, and missing/malformed/naive timestamps reject the entire batch. Valid statuses are `scheduled`, `in_progress`, `final`, `postponed`, `canceled`, `delayed`, `suspended`, `abandoned`, and the explicit domain value `unknown`. Unrecognized input is not silently converted to `unknown` by storage. Existing provider normalization is unchanged.
+
+`--retrieved-at 2026-10-18T12:00:00Z` optionally supplies the actual observation time when importing saved data; otherwise import time is used. This is not the game's start time or a provider last-modified timestamp. Replaying old data without its original retrieval time will mark it freshly observed, so supply it for archived snapshots. Stale means `retrieved_at < now - hours` (default 24 hours), across all statuses; equality is fresh. This is an operator threshold, not a provider SLA.
+
+SQLite uses a `games` table with scalar league, provider, provider game ID, home/away IDs/names/optional abbreviations, UTC start, status, retrieval time, and creation/update times. `UNIQUE(league, provider, provider_game_id)` and parameterized UPSERTs prevent duplicates. `created_at` is first insertion time; `updated_at` changes only when game fields change; `retrieved_at` advances on unchanged reimports too. All timestamps are ISO 8601 UTC with fixed microsecond precision. Older observations are rejected atomically rather than regressing current state. The imported count is input records processed, not new rows inserted.
+
+Every material update, including team corrections, postponements, start-time changes, and explicit cancellations, appends old/new game snapshots to `game_changes` in the same transaction. Unchanged observations do not create history. Missing games or empty imports never imply cancellation. Rows and history are retained indefinitely with no pruning, deletion command, raw-response archive, or automatic refresh. Keep local backups outside Git; database/sidecar/temp files, `.env`, and `.env.save` are ignored, not deleted. SQLite is local research storage, not a cross-provider team registry. Detailed schema and retention semantics are in `docs/architecture.md`.
+
+The existing `schedule` command remains read-only and does not write the database. These three new commands never read credentials or contact an API. PostgreSQL and live-import orchestration are out of scope.
 
 ## Opt-in BALLDONTLIE Games (read-only)
 
@@ -52,7 +71,8 @@ The project-local `.venv` has no pip because system Python lacks `ensurepip`; th
 
 - `sportsiq/domain/`: shared `Game`, `Team`, `League`, and `GameStatus` types.
 - `sportsiq/providers/`: schedule contract, fixture parsers, local JSON source, opt-in BALLDONTLIE Games client/adapters.
-- `sportsiq/storage/`, `sportsiq/analysis/`, `sportsiq/reports/`: reserved modules for future milestones, currently empty.
+- `sportsiq/storage/schedule.py`: validated SQLite imports, source-scoped games, change history, stored queries, and stale reports.
+- `sportsiq/analysis/`, `sportsiq/reports/`: reserved modules for future milestones, currently empty.
 - `sportsiq/cli.py`: offline-default, opt-in BALLDONTLIE league-selectable schedule query.
 - `tests/`: five original NFL tests plus multi-sport/NBA tests and synthetic JSON fixtures.
 - `docs/architecture.md`: source boundaries, historical-data options and future read-only matching.

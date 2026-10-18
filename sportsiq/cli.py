@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import sqlite3
 from dataclasses import asdict
 from datetime import date
 from pathlib import Path
@@ -13,6 +14,7 @@ from sportsiq.providers.base import ScheduleProvider
 from sportsiq.providers.espn_nfl import ESPNNFLScheduleProvider
 from sportsiq.providers.fixture import FixtureScheduleSource, FixtureScoreboardSource
 from sportsiq.providers.nba_schedule import NBAFixtureScheduleProvider
+from sportsiq.storage.schedule import DEFAULT_DATABASE, ScheduleStore
 
 PROJECT_ENV = Path(__file__).resolve().parent.parent / ".env"
 
@@ -40,7 +42,42 @@ def main(argv: Sequence[str] | None = None) -> int:
     schedule.add_argument("--date", required=True, type=date.fromisoformat, help="UTC date (YYYY-MM-DD)")
     schedule.add_argument("--provider", choices=("fixture", "balldontlie"), default="fixture")
     schedule.add_argument("--fixture", type=Path, help="Local schedule-shaped JSON file")
+    importer = subcommands.add_parser("import-schedule", help="Import normalized local JSON (no API calls)")
+    importer.add_argument("--fixture", type=Path, required=True)
+    importer.add_argument("--provider", required=True, help="Provider namespace in fixture provider_ids")
+    importer.add_argument("--retrieved-at", help="Actual observation time; defaults to import time")
+    stored = subcommands.add_parser("stored-schedule", help="Query persisted schedules")
+    stored.add_argument("--date", type=date.fromisoformat, help="UTC calendar date")
+    stale = subcommands.add_parser("stale-schedules", help="Report records older than the retrieval threshold")
+    stale.add_argument("--hours", type=float, default=24)
+    stale.add_argument("--now", help="Explicit timezone-aware reference time for offline reports")
+    for command in (importer, stored, stale):
+        command.add_argument("--database", type=Path, default=DEFAULT_DATABASE)
+    for command in (stored, stale):
+        command.add_argument("--league", choices=[league.value for league in League])
+        command.add_argument("--provider")
     args = parser.parse_args(argv)
+
+    if args.command != "schedule":
+        try:
+            # These commands never construct a provider/client or load credentials.
+            records = json.loads(args.fixture.read_text(encoding="utf-8")) if args.command == "import-schedule" else None
+            with ScheduleStore(args.database) as store:
+                if args.command == "import-schedule":
+                    result = {"imported": store.import_records(records, args.provider, retrieved_at=args.retrieved_at)}
+                elif args.command == "stored-schedule":
+                    result = store.query(league=args.league, provider=args.provider,
+                                         day=args.date.isoformat() if args.date else None)
+                else:
+                    result = store.stale(hours=args.hours, now=args.now, league=args.league, provider=args.provider)
+        except json.JSONDecodeError:
+            parser.error("fixture must contain valid JSON")
+        except ValueError as error:
+            parser.error(str(error))
+        except (OSError, UnicodeError, sqlite3.Error):
+            parser.error("unable to read fixture or access schedule database")
+        print(json.dumps(result, indent=2))
+        return 0
 
     provider: ScheduleProvider
     if args.provider == "balldontlie":
