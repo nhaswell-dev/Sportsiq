@@ -1,0 +1,22 @@
+{
+  "_fixture_note": "Synthetic BALLDONTLIE-shaped NBA data for offline tests; not a captured response or actual games.",
+  "data": [
+    {
+      "id": 900001,
+      "date": "2026-10-20",
+      "datetime": "2026-10-20T23:30:00-04:00",
+      "status_state": "scheduled",
+      "home_team": {"id": 101, "full_name": "Example Home Basketball", "abbreviation": "EHB"},
+      "visitor_team": {"id": 102, "full_name": "Example Away Basketball", "abbreviation": "EAB"}
+    },
+    {
+      "id": 900002,
+      "date": "2026-10-22",
+      "datetime": "2026-10-22T00:00:00Z",
+      "status_state": "final",
+      "home_team": {"id": 103, "full_name": "Another Home", "abbreviation": "AHO"},
+      "visitor_team": {"id": 104, "full_name": "Another Away", "abbreviation": "AAW"}
+    }
+  ],
+  "meta": {"next_cursor": null, "per_page": 25}
+}

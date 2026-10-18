@@ -12,3 +12,7 @@ class ScheduleProvider(Protocol):
 
 class ScoreboardSource(Protocol):
     def get_scoreboard(self, day: date) -> Mapping[str, Any]: ...
+
+
+class ScheduleSource(Protocol):
+    def get_schedule(self, day: date) -> Mapping[str, Any]: ...
