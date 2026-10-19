@@ -55,6 +55,12 @@ The first invocation uses invented prior results with the two target matchup ide
 
 This separate offline path accepts only code-approved snapshot bytes with pinned provenance, licensing and inventory evidence. It preserves `observed_complete_by_snapshot` bounds without inventing exact final-whistle times. Ordinary fixtures and the legacy CSV adapter keep their strict validation; caller approval flags cannot authorize bound records. The existing real snapshot supplies ten eligible prior SF/WAS records, but is too late for a Rams pregame replay. JSON/readable outputs retain missing context and INSUFFICIENT_DATA selection assessments, not win probabilities or trading recommendations. The raw local snapshot is required for these commands and is not bundled into Git or unit tests. See `docs/nfl-observed-completion.md` and the generated `docs/nfl-observed-49ers-report.json` / `.txt` and `docs/nfl-observed-rams-report.json` / `.txt`.
 
+## Consolidated Kalshi parlay report (Milestone 2E-E)
+
+    .venv/bin/python -m sportsiq parlay-report --url 'https://kalshi.com/markets/kxmvecrosscategory/combo/KXMVECROSSCATEGORY-S2026KRL562BKN32IAT7Y?utm_source=kalshiapp_eventdetails&marketTicker=KXMVECROSSCATEGORY-S2026KRL562BKN32IAT7Y-RXGIQQ2OG' --format summary
+
+Use `--format json` for machine-readable stdout. Defaults reuse the existing saved twelve-leg projection and local historical snapshot; `--offline`, `--games`, and `--snapshot` select local inputs. Only explicit `--live` enables the existing public two-GET, no-retry Kalshi extractor; schedules/history stay offline. Mapping statuses are separate from SUPPORTED_EVIDENCE/INSUFFICIENT_DATA analysis. The supplied report has two MATCHED NFL legs and ten unsupported NCAAF legs; verified SF descriptive history is attached, while Rams remains insufficient. Default leg-specific cutoffs do not establish an original combo replay; `--cutoff` applies a common aware boundary and cannot bypass source gates. No probabilities, prices, recommendations, database/credential access or Telegram messaging is added. See `docs/consolidated-parlay-report.md` and generated `.json` / `.txt` reports for chronology, provenance, gaps and CLI contracts.
+
 ## Sample schedule queries (offline fixtures)
 
     .venv/bin/python -m sportsiq schedule --league nfl --date 2026-09-13 --fixture tests/fixtures/nfl_scoreboard.json

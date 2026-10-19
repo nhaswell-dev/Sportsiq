@@ -1,0 +1,212 @@
+SportsIQ consolidated Kalshi parlay report
+URL: "https://kalshi.com/markets/kxmvecrosscategory/combo/KXMVECROSSCATEGORY-S2026KRL562BKN32IAT7Y?utm_source=kalshiapp_eventdetails&marketTicker=KXMVECROSSCATEGORY-S2026KRL562BKN32IAT7Y-RXGIQQ2OG"
+Event: "KXMVECROSSCATEGORY-S2026KRL562BKN32IAT7Y"
+Market: "KXMVECROSSCATEGORY-S2026KRL562BKN32IAT7Y-RXGIQQ2OG"
+Generated: "2026-10-19T14:07:08.161184+00:00"
+Legs / leagues: 12 / {"nba": 0, "ncaab": 0, "ncaaf": 10, "nfl": 2, "unknown": 0}
+Analysis scope: "independent_per_leg_review_not_original_combo_replay"
+Common cutoff (null means separate leg cutoffs): null
+Combo assessment: "INSUFFICIENT_DATA"
+Original combo replay supported: false
+Provenance: {"historical_snapshot_reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z", "market": {"capture_time_policy": "declared saved observation, not verified pregame availability", "captured_at": "2026-10-19T00:10:00.405482+00:00", "mode": "offline", "reference": "file:///home/hermesdev/development/sportsiq/tests/fixtures/nfl_combo_observed.json", "requests_made_this_run": 0, "sha256": "cbd01318a03b13be2b685067d2e15f923ceb2dc2dd0ecef7cb654f6ae4afafa5"}, "market_projection_policy": "Existing matcher allowlists; no raw outcomes, prices or unknown API fields forwarded", "schedule": {"capture_time_policy": "declared saved provider observation, not verified pregame availability", "captured_at": "2026-10-19T00:28:19.645783+00:00", "reference": "file:///home/hermesdev/development/sportsiq/tests/fixtures/nfl_combo_observed.json", "sha256": "cbd01318a03b13be2b685067d2e15f923ceb2dc2dd0ecef7cb654f6ae4afafa5"}}
+Schedule coverage / cursor: "supplied page only; not verified historical coverage" / null
+Warning: "Mapping is not evidence readiness or a supported betting selection."
+Warning: "Independent later leg evidence must not be backdated to the original combo."
+
+1. "ncaaf" "yes" | selection="Texas Tech"
+  Event: "KXNCAAFGAME-26OCT16ASUTTU"
+  Market: "KXNCAAFGAME-26OCT16ASUTTU-TTU"
+  Matchup / proposition rules: "If Texas Tech wins the Arizona St. vs Texas Tech college football game originally scheduled for Oct 16, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-17T23:17:32.153838Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-17T03:00:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+2. "ncaaf" "yes" | selection="Texas"
+  Event: "KXNCAAFGAME-26OCT16FLATEX"
+  Market: "KXNCAAFGAME-26OCT16FLATEX-TEX"
+  Matchup / proposition rules: "If Texas wins the Florida vs Texas college football game originally scheduled for Oct 16, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-17T19:27:52.668169Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-17T03:00:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+3. "ncaaf" "yes" | selection="Louisville"
+  Event: "KXNCAAFGAME-26OCT16LOUSYR"
+  Market: "KXNCAAFGAME-26OCT16LOUSYR-LOU"
+  Matchup / proposition rules: "If Louisville wins the Louisville vs Syracuse college football game originally scheduled for Oct 16, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-18T03:12:22.154622Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-17T03:00:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+4. "ncaaf" "yes" | selection="LSU"
+  Event: "KXNCAAFGAME-26OCT16MSSTLSU"
+  Market: "KXNCAAFGAME-26OCT16MSSTLSU-LSU"
+  Matchup / proposition rules: "If LSU wins the Mississippi St. vs LSU college football game originally scheduled for Oct 16, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-17T19:22:57.165142Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-17T03:00:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+5. "ncaaf" "yes" | selection="New Mexico"
+  Event: "KXNCAAFGAME-26OCT16UNMHAW"
+  Market: "KXNCAAFGAME-26OCT16UNMHAW-UNM"
+  Matchup / proposition rules: "If New Mexico wins the New Mexico vs Hawai'i college football game originally scheduled for Oct 16, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-18T06:07:07.153931Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-17T03:00:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+6. "ncaaf" "yes" | selection="Utah"
+  Event: "KXNCAAFGAME-26OCT16UTAHCOLO"
+  Market: "KXNCAAFGAME-26OCT16UTAHCOLO-UTAH"
+  Matchup / proposition rules: "If Utah wins the Utah vs Colorado college football game originally scheduled for Oct 16, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-18T06:13:52.159574Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-17T03:00:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+7. "ncaaf" "yes" | selection="Alabama"
+  Event: "KXNCAAFGAME-26OCT17ALATENN"
+  Market: "KXNCAAFGAME-26OCT17ALATENN-ALA"
+  Matchup / proposition rules: "If Alabama wins the Alabama vs Tennessee college football game originally scheduled for Oct 17, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-17T23:24:12.678343Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-17T22:30:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+8. "ncaaf" "yes" | selection="Georgia"
+  Event: "KXNCAAFGAME-26OCT17AUBUGA"
+  Market: "KXNCAAFGAME-26OCT17AUBUGA-UGA"
+  Matchup / proposition rules: "If Georgia wins the Auburn vs Georgia college football game originally scheduled for Oct 17, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-17T23:07:32.701045Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-17T22:30:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+9. "ncaaf" "yes" | selection="Miami (FL)"
+  Event: "KXNCAAFGAME-26OCT17FSUMIA"
+  Market: "KXNCAAFGAME-26OCT17FSUMIA-MIA"
+  Matchup / proposition rules: "If Miami (FL) wins the Florida St. vs Miami (FL) college football game originally scheduled for Oct 17, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-18T03:04:02.677141Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-18T02:00:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+10. "ncaaf" "yes" | selection="North Dakota St."
+  Event: "KXNCAAFGAME-26OCT17NEVNDSU"
+  Market: "KXNCAAFGAME-26OCT17NEVNDSU-NDSU"
+  Matchup / proposition rules: "If North Dakota St. wins the Nevada vs North Dakota St. college football game originally scheduled for Oct 17, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNCAAFGAME"
+  Mapping: "UNSUPPORTED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: null | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-18T02:32:42.153572Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-18T02:00:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Snapshot status / capture: null / null
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "statistical_adapter_unavailable"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "only NFL game-winner series supported"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified."]
+
+11. "nfl" "yes" | selection="Los Angeles R"
+  Event: "KXNFLGAME-26OCT18ARILAR"
+  Market: "KXNFLGAME-26OCT18ARILAR-LAR"
+  Matchup / proposition rules: "If Los Angeles R wins the ARI Cardinals vs LA Rams Pro Football game originally scheduled for Oct 18, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNFLGAME"
+  Mapping: "MATCHED" | analysis: "INSUFFICIENT_DATA"
+  Cutoff: "2026-10-18T19:00:00+00:00" | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-18T23:05:47.69011Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-18T23:05:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Mapped game / scheduled UTC / Eastern / actual verified: {"provider_ids": {"balldontlie": "1392304"}, "start_time": "2026-10-18T20:05:00+00:00", "start_time_eastern": "2026-10-18T16:05:00-04:00", "verified_historical_kickoff": null}
+  Snapshot status / capture: "BLOCKED" / "2026-10-19T05:34:44.001488+00:00"
+  Sources: []
+  Completion evidence (not exact whistles): []
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "predictive_method_unvalidated", "full_season_coverage_unverified", "target_schedule_unavailable", "snapshot_not_before_cutoff"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "occurrence differs from provider schedule; occurrence is not kickoff"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified.", "No validated predictive method; comparisons are not winning probabilities", "Injuries, rosters, ratings and prices are not supported inputs"]
+
+12. "nfl" "yes" | selection="San Francisco"
+  Event: "KXNFLGAME-26OCT19WASSF"
+  Market: "KXNFLGAME-26OCT19WASSF-SF"
+  Matchup / proposition rules: "If San Francisco wins the WAS Commanders vs SF 49ers Pro Football game originally scheduled for Oct 19, 2026, then the market resolves to Yes."
+  Classification source: "event_ticker.series:KXNFLGAME"
+  Mapping: "MATCHED" | analysis: "SUPPORTED_EVIDENCE"
+  Cutoff: "2026-10-19T23:00:00+00:00" | engine selection: "INSUFFICIENT_DATA"
+  Source timestamps (occurrence is NOT kickoff): {"actual_start": null, "market_updated": {"source": "market.updated_time", "value": "2026-10-06T04:06:00.764221Z"}, "occurrence": {"source": "market.occurrence_datetime", "value": "2026-10-20T03:15:00Z"}, "schedule_updated": null, "scheduled_start": null}
+  Mapped game / scheduled UTC / Eastern / actual verified: {"provider_ids": {"balldontlie": "1392308"}, "start_time": "2026-10-20T00:15:00+00:00", "start_time_eastern": "2026-10-19T20:15:00-04:00", "verified_historical_kickoff": null}
+  Metric: {"game_ids": ["2026_01_SF_LA", "2026_01_WAS_PHI", "2026_02_MIA_SF", "2026_02_WAS_DAL", "2026_03_ARI_SF", "2026_03_SEA_WAS", "2026_04_DEN_SF", "2026_04_IND_WAS", "2026_05_NYG_WAS", "2026_05_SF_SEA"], "name": "record", "opponent": {"games": 5, "losses": 3, "ties": 1, "win_fraction": 0.3, "wins": 1}, "selected": {"games": 5, "losses": 0, "ties": 0, "win_fraction": 1.0, "wins": 5}, "source_ids": ["verified-nflverse-pbp"], "status": "AVAILABLE"}
+  Metric: {"game_ids": ["2026_01_SF_LA", "2026_01_WAS_PHI", "2026_02_MIA_SF", "2026_02_WAS_DAL", "2026_03_ARI_SF", "2026_03_SEA_WAS", "2026_04_DEN_SF", "2026_04_IND_WAS", "2026_05_NYG_WAS", "2026_05_SF_SEA"], "name": "home_away", "opponent": {"away": {"games": 2, "losses": 2, "ties": 0, "win_fraction": 0.0, "wins": 0}, "home": {"games": 2, "losses": 0, "ties": 1, "win_fraction": 0.75, "wins": 1}, "neutral": {"games": 1, "losses": 1, "ties": 0, "win_fraction": 0.0, "wins": 0}}, "selected": {"away": {"games": 1, "losses": 0, "ties": 0, "win_fraction": 1.0, "wins": 1}, "home": {"games": 3, "losses": 0, "ties": 0, "win_fraction": 1.0, "wins": 3}, "neutral": {"games": 1, "losses": 0, "ties": 0, "win_fraction": 1.0, "wins": 1}}, "source_ids": ["verified-nflverse-pbp"], "status": "AVAILABLE"}
+  Metric: {"game_ids": ["2026_01_SF_LA", "2026_01_WAS_PHI", "2026_02_MIA_SF", "2026_02_WAS_DAL", "2026_03_ARI_SF", "2026_03_SEA_WAS", "2026_04_DEN_SF", "2026_04_IND_WAS", "2026_05_NYG_WAS", "2026_05_SF_SEA"], "name": "points", "opponent": {"allowed": 149, "allowed_per_game": 29.8, "games": 5, "point_differential": -34, "point_differential_per_game": -6.8, "scored": 115, "scored_per_game": 23.0}, "selected": {"allowed": 93, "allowed_per_game": 18.6, "games": 5, "point_differential": 61, "point_differential_per_game": 12.2, "scored": 154, "scored_per_game": 30.8}, "source_ids": ["verified-nflverse-pbp"], "status": "AVAILABLE"}
+  Metric: {"game_ids": [], "name": "opponent_strength", "opponent": null, "selected": null, "source_ids": [], "status": "MISSING"}
+  Snapshot status / capture: "ACCEPTED_OBSERVED_HISTORY" / "2026-10-19T05:34:44.001488+00:00"
+  Sources: [{"availability_evidence": {"kind": "capture", "observed_at": "2026-10-19T05:34:44.001488+00:00", "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/snapshot_manifest.json"}, "available_at": "2026-10-19T05:34:44.001488+00:00", "content_sha256": "a6ba73b538f4b9a1001c43746ed16c7a597d949b69755b452ccade6ba9e7c746", "data_kind": "observed", "feature_eligible": true, "license": {"allowed_uses": ["analysis", "display"], "attribution": "nflverse/nflfastR; upstream NFL PBP; CC BY 4.0; SportsIQ derived projection, no endorsement", "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/data_license.md", "status": "approved"}, "provider": "Verified pinned nflverse capture", "published_at": "2026-10-19T04:32:52Z", "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/play_by_play_2026.csv.gz", "reliability_evidence": "Pinned bundle rehashed; saved publisher digest and final-marker rows verified", "reliable": true, "retrieved_at": "2026-10-19T05:34:44.001488+00:00", "revision_at": "2026-10-19T04:32:52Z", "source_id": "verified-nflverse-pbp", "version": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"}, {"availability_evidence": {"kind": "capture", "observed_at": "2026-10-19T05:36:11.361532+00:00", "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/snapshot_manifest.json"}, "available_at": "2026-10-19T05:36:11.361532+00:00", "content_sha256": "3029ded670a445454e3a41d6801b922449b926cc4eb72eeecc04a5cfc007af05", "data_kind": "observed", "feature_eligible": true, "license": {"allowed_uses": ["analysis", "display"], "attribution": "Official 49ers schedule, cached excerpt reference only; underlying content rights reserved", "reference": "reviewed-event-facts:5f4499d065c659bbf674ef5a3595f87eb3d9d5deac6ba8c9f95b6450ff4493df", "status": "approved"}, "provider": "SportsIQ pinned official-schedule excerpt facts", "published_at": "2026-10-19T05:36:11.361532+00:00", "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/schedule_reference.json", "reliability_evidence": "Pinned cached source and explicitly reviewed event-fact transcription", "reliable": true, "retrieved_at": "2026-10-19T05:36:11.361532+00:00", "revision_at": "2026-10-19T05:36:11.361532+00:00", "source_id": "verified-cached-schedule", "version": "5f4499d065c659bbf674ef5a3595f87eb3d9d5deac6ba8c9f95b6450ff4493df"}]
+  Completion evidence (not exact whistles): [{"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 2417, "game_id": "2026_01_SF_LA", "play_id": "3916", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-09-11T00:37:25.343000+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 2757, "game_id": "2026_01_WAS_PHI", "play_id": "4219", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-09-13T20:25:25.310000+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 4350, "game_id": "2026_02_MIA_SF", "play_id": "3773", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-09-20T20:25:17.623000+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 5490, "game_id": "2026_02_WAS_DAL", "play_id": "4232", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-09-20T20:25:36+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 5681, "game_id": "2026_03_ARI_SF", "play_id": "4739", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-09-27T20:05:18.610000+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 8147, "game_id": "2026_03_SEA_WAS", "play_id": "4730", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-09-27T17:03:11.787000+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 9025, "game_id": "2026_04_DEN_SF", "play_id": "4408", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-10-04T20:25:54.327000+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 9553, "game_id": "2026_04_IND_WAS", "play_id": "4272", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-10-04T13:32:18.500000+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 13314, "game_id": "2026_05_NYG_WAS", "play_id": "5158", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-10-11T17:02:30.633000+00:00"}, {"basis": "END GAME", "completed_at": null, "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00", "completion_basis": "observed_complete_by_snapshot", "csv_ending_line": 13671, "game_id": "2026_05_SF_SEA", "play_id": "4269", "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee", "started_at": "2026-10-11T20:25:19.420000+00:00"}]
+  Missing evidence: ["validated_predictive_method_unavailable", "injury_and_roster_evidence_unavailable", "pregame_price_evidence_unavailable", "cross_leg_dependence_unavailable", "predictive_method_unvalidated", "full_season_coverage_unverified", "opponent_strength_incomplete", "independent_opponent_history_unverified"]
+  Mapping warnings: ["historical_kickoff_unverified", "pregame_availability_unverified", "occurrence differs from provider schedule; occurrence is not kickoff"]
+  Market metadata gaps: ["pregame_availability_unverified", "missing_scheduled_start_time", "missing_actual_start_time"]
+  Analysis warnings: ["Descriptive evidence only; not a supported betting selection.", "Market identity and mapping metadata availability at cutoff remain unverified.", "No validated predictive method; comparisons are not winning probabilities", "Injuries, rosters, ratings and prices are not supported inputs", "actual_kickoff_unverified", "Schedule is a pinned cached excerpt, not a live refresh; target neutral-site status unknown", "Completion is observed by capture, not an exact final-whistle timestamp"]

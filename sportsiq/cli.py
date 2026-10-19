@@ -18,6 +18,7 @@ from sportsiq.providers.kalshi import (
     KalshiClient, KalshiError, MAX_RESPONSE_BYTES, decode_metadata, extract_parlay, fetch_parlay, parse_kalshi_url,
 )
 from sportsiq.reports.parlay import parlay_summary
+from sportsiq.parlay_report import add_arguments as parlay_report_arguments, run as run_parlay_report
 from sportsiq.storage.schedule import DEFAULT_DATABASE, ScheduleStore, validate_record
 
 PROJECT_ENV = Path(__file__).resolve().parent.parent / ".env"
@@ -41,6 +42,8 @@ def _project_key() -> str:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="sportsiq")
     subcommands = parser.add_subparsers(dest="command", required=True)
+    consolidated = subcommands.add_parser("parlay-report", help="Consolidated read-only parlay evidence report")
+    parlay_report_arguments(consolidated)
     parlay = subcommands.add_parser("kalshi-parlay", help="Read-only Kalshi combo discovery (no predictions)")
     parlay.add_argument("--url", required=True, help="Exact Kalshi URL including marketTicker")
     parlay_source = parlay.add_mutually_exclusive_group(required=True)
@@ -73,6 +76,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         command.add_argument("--league", choices=[league.value for league in League])
         command.add_argument("--provider")
     args = parser.parse_args(argv)
+
+    if args.command == "parlay-report":
+        return run_parlay_report(args, parser)
 
     if args.command == "kalshi-parlay":
         if args.no_retries and not args.live:
