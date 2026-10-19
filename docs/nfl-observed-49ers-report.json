@@ -1,0 +1,374 @@
+{
+  "schema_version": 1,
+  "data_kind": "observed",
+  "mode": "prospective",
+  "analysis_cutoff": "2026-10-19T23:00:00+00:00",
+  "notice": "Observed NFL history from a code-approved, hash-verified offline snapshot; completion established by capture, not exact final-whistle timestamps",
+  "sources": [
+    {
+      "source_id": "verified-nflverse-pbp",
+      "data_kind": "observed",
+      "provider": "Verified pinned nflverse capture",
+      "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/play_by_play_2026.csv.gz",
+      "version": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee",
+      "reliable": true,
+      "reliability_evidence": "Pinned bundle rehashed; saved publisher digest and final-marker rows verified",
+      "license": {
+        "status": "approved",
+        "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/data_license.md",
+        "allowed_uses": [
+          "analysis",
+          "display"
+        ],
+        "attribution": "nflverse/nflfastR; upstream NFL PBP; CC BY 4.0; SportsIQ derived projection, no endorsement"
+      },
+      "published_at": "2026-10-19T04:32:52Z",
+      "revision_at": "2026-10-19T04:32:52Z",
+      "available_at": "2026-10-19T05:34:44.001488+00:00",
+      "retrieved_at": "2026-10-19T05:34:44.001488+00:00",
+      "availability_evidence": {
+        "kind": "capture",
+        "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/snapshot_manifest.json",
+        "observed_at": "2026-10-19T05:34:44.001488+00:00"
+      },
+      "content_sha256": "a6ba73b538f4b9a1001c43746ed16c7a597d949b69755b452ccade6ba9e7c746",
+      "feature_eligible": true
+    },
+    {
+      "source_id": "verified-cached-schedule",
+      "data_kind": "observed",
+      "provider": "SportsIQ pinned official-schedule excerpt facts",
+      "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/schedule_reference.json",
+      "version": "5f4499d065c659bbf674ef5a3595f87eb3d9d5deac6ba8c9f95b6450ff4493df",
+      "reliable": true,
+      "reliability_evidence": "Pinned cached source and explicitly reviewed event-fact transcription",
+      "license": {
+        "status": "approved",
+        "reference": "reviewed-event-facts:5f4499d065c659bbf674ef5a3595f87eb3d9d5deac6ba8c9f95b6450ff4493df",
+        "allowed_uses": [
+          "analysis",
+          "display"
+        ],
+        "attribution": "Official 49ers schedule, cached excerpt reference only; underlying content rights reserved"
+      },
+      "published_at": "2026-10-19T05:36:11.361532+00:00",
+      "revision_at": "2026-10-19T05:36:11.361532+00:00",
+      "available_at": "2026-10-19T05:36:11.361532+00:00",
+      "retrieved_at": "2026-10-19T05:36:11.361532+00:00",
+      "availability_evidence": {
+        "kind": "capture",
+        "reference": "file:///home/hermesdev/development/sportsiq/data/snapshots/nfl/2026-10-19T053443Z/snapshot_manifest.json",
+        "observed_at": "2026-10-19T05:36:11.361532+00:00"
+      },
+      "content_sha256": "3029ded670a445454e3a41d6801b922449b926cc4eb72eeecc04a5cfc007af05",
+      "feature_eligible": true
+    }
+  ],
+  "excluded": [],
+  "legs": [
+    {
+      "leg_id": "49ers",
+      "game_id": "2026_06_WAS_SF",
+      "market_ticker": "KXNFLGAME-26OCT19WASSF-SF",
+      "side": "yes",
+      "selected_team_id": "SF",
+      "analysis_cutoff": "2026-10-19T23:00:00+00:00",
+      "assessment": "INSUFFICIENT_DATA",
+      "coverage": "supplied validated games only; full season coverage unverified",
+      "scheduled_kickoff": "2026-10-20T00:15:00+00:00",
+      "actual_kickoff": null,
+      "schedule_source_ids": [
+        "verified-cached-schedule"
+      ],
+      "kickoff_source_ids": [],
+      "metrics": [
+        {
+          "name": "record",
+          "status": "AVAILABLE",
+          "selected": {
+            "games": 5,
+            "wins": 5,
+            "losses": 0,
+            "ties": 0,
+            "win_fraction": 1.0
+          },
+          "opponent": {
+            "games": 5,
+            "wins": 1,
+            "losses": 3,
+            "ties": 1,
+            "win_fraction": 0.3
+          },
+          "source_ids": [
+            "verified-nflverse-pbp"
+          ],
+          "game_ids": [
+            "2026_01_SF_LA",
+            "2026_01_WAS_PHI",
+            "2026_02_MIA_SF",
+            "2026_02_WAS_DAL",
+            "2026_03_ARI_SF",
+            "2026_03_SEA_WAS",
+            "2026_04_DEN_SF",
+            "2026_04_IND_WAS",
+            "2026_05_NYG_WAS",
+            "2026_05_SF_SEA"
+          ]
+        },
+        {
+          "name": "home_away",
+          "status": "AVAILABLE",
+          "selected": {
+            "home": {
+              "games": 3,
+              "wins": 3,
+              "losses": 0,
+              "ties": 0,
+              "win_fraction": 1.0
+            },
+            "away": {
+              "games": 1,
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "win_fraction": 1.0
+            },
+            "neutral": {
+              "games": 1,
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "win_fraction": 1.0
+            }
+          },
+          "opponent": {
+            "home": {
+              "games": 2,
+              "wins": 1,
+              "losses": 0,
+              "ties": 1,
+              "win_fraction": 0.75
+            },
+            "away": {
+              "games": 2,
+              "wins": 0,
+              "losses": 2,
+              "ties": 0,
+              "win_fraction": 0.0
+            },
+            "neutral": {
+              "games": 1,
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "win_fraction": 0.0
+            }
+          },
+          "source_ids": [
+            "verified-nflverse-pbp"
+          ],
+          "game_ids": [
+            "2026_01_SF_LA",
+            "2026_01_WAS_PHI",
+            "2026_02_MIA_SF",
+            "2026_02_WAS_DAL",
+            "2026_03_ARI_SF",
+            "2026_03_SEA_WAS",
+            "2026_04_DEN_SF",
+            "2026_04_IND_WAS",
+            "2026_05_NYG_WAS",
+            "2026_05_SF_SEA"
+          ]
+        },
+        {
+          "name": "points",
+          "status": "AVAILABLE",
+          "selected": {
+            "games": 5,
+            "scored": 154,
+            "allowed": 93,
+            "scored_per_game": 30.8,
+            "allowed_per_game": 18.6,
+            "point_differential": 61,
+            "point_differential_per_game": 12.2
+          },
+          "opponent": {
+            "games": 5,
+            "scored": 115,
+            "allowed": 149,
+            "scored_per_game": 23.0,
+            "allowed_per_game": 29.8,
+            "point_differential": -34,
+            "point_differential_per_game": -6.8
+          },
+          "source_ids": [
+            "verified-nflverse-pbp"
+          ],
+          "game_ids": [
+            "2026_01_SF_LA",
+            "2026_01_WAS_PHI",
+            "2026_02_MIA_SF",
+            "2026_02_WAS_DAL",
+            "2026_03_ARI_SF",
+            "2026_03_SEA_WAS",
+            "2026_04_DEN_SF",
+            "2026_04_IND_WAS",
+            "2026_05_NYG_WAS",
+            "2026_05_SF_SEA"
+          ]
+        },
+        {
+          "name": "opponent_strength",
+          "status": "MISSING",
+          "selected": null,
+          "opponent": null,
+          "source_ids": [],
+          "game_ids": []
+        }
+      ],
+      "missing_data": [
+        "predictive_method_unvalidated",
+        "full_season_coverage_unverified",
+        "opponent_strength_incomplete",
+        "independent_opponent_history_unverified"
+      ],
+      "evidence_for": [
+        "record: selected=1.0, opponent=0.3; supplied-history comparison only",
+        "points_scored_per_game: selected=30.8, opponent=23.0; supplied-history comparison only",
+        "points_allowed_per_game: selected=18.6, opponent=29.8; supplied-history comparison only"
+      ],
+      "evidence_against": [],
+      "uncertainty": [
+        "No validated predictive method; comparisons are not winning probabilities",
+        "Injuries, rosters, ratings and prices are not supported inputs",
+        "actual_kickoff_unverified",
+        "Schedule is a pinned cached excerpt, not a live refresh; target neutral-site status unknown",
+        "Completion is observed by capture, not an exact final-whistle timestamp"
+      ],
+      "selected_team": "San Francisco 49ers",
+      "opponent_team": "Washington Commanders",
+      "selected_venue": "unknown"
+    }
+  ],
+  "snapshot_status": "ACCEPTED_OBSERVED_HISTORY",
+  "raw_snapshot_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee",
+  "snapshot_captured_at": "2026-10-19T05:34:44.001488+00:00",
+  "completion_provenance": [
+    {
+      "game_id": "2026_01_SF_LA",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-09-11T00:37:25.343000+00:00",
+      "basis": "END GAME",
+      "play_id": "3916",
+      "csv_ending_line": 2417,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_01_WAS_PHI",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-09-13T20:25:25.310000+00:00",
+      "basis": "END GAME",
+      "play_id": "4219",
+      "csv_ending_line": 2757,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_02_MIA_SF",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-09-20T20:25:17.623000+00:00",
+      "basis": "END GAME",
+      "play_id": "3773",
+      "csv_ending_line": 4350,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_02_WAS_DAL",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-09-20T20:25:36+00:00",
+      "basis": "END GAME",
+      "play_id": "4232",
+      "csv_ending_line": 5490,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_03_ARI_SF",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-09-27T20:05:18.610000+00:00",
+      "basis": "END GAME",
+      "play_id": "4739",
+      "csv_ending_line": 5681,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_03_SEA_WAS",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-09-27T17:03:11.787000+00:00",
+      "basis": "END GAME",
+      "play_id": "4730",
+      "csv_ending_line": 8147,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_04_DEN_SF",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-10-04T20:25:54.327000+00:00",
+      "basis": "END GAME",
+      "play_id": "4408",
+      "csv_ending_line": 9025,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_04_IND_WAS",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-10-04T13:32:18.500000+00:00",
+      "basis": "END GAME",
+      "play_id": "4272",
+      "csv_ending_line": 9553,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_05_NYG_WAS",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-10-11T17:02:30.633000+00:00",
+      "basis": "END GAME",
+      "play_id": "5158",
+      "csv_ending_line": 13314,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    },
+    {
+      "game_id": "2026_05_SF_SEA",
+      "completion_basis": "observed_complete_by_snapshot",
+      "completed_at": null,
+      "completed_no_later_than": "2026-10-19T05:34:44.001488+00:00",
+      "started_at": "2026-10-11T20:25:19.420000+00:00",
+      "basis": "END GAME",
+      "play_id": "4269",
+      "csv_ending_line": 13671,
+      "raw_sha256": "d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee"
+    }
+  ],
+  "reviewed_inventory": "matched; independent full-season coverage remains unverified",
+  "target_and_later_games_excluded": [
+    "2026_06_ARI_LA"
+  ],
+  "license_review": "CC BY 4.0: pinned license and nflverse scope statement include non-FTN PBP; attribution retained",
+  "report_generated_at": "2026-10-19T12:31:13.410118+00:00"
+}

@@ -48,6 +48,13 @@ The example contains synthetic teams, statistics, source attestations and market
 
 The first invocation uses invented prior results with the two target matchup identities; it is explicitly SYNTHETIC_ONLY, not actual Rams/49ers statistics. The adapter binds CSV bytes to provenance, filters prior completed games, excludes targets and unavailable revisions, checks declared team-history inventories and reuses the existing assessment engine. Real mode is blocked until dataset rights and historical publication/completion evidence are independently established; a self-declared license flag cannot enable it. The second invocation reproduces the zero-metric INSUFFICIENT_DATA report in `docs/nfl-real-historical-report.json`. See `docs/nfl-real-historical-data.md` for source-verification receipts, limitations and the exact nine-column CSV/manifest contract. No live adapter, price history, probabilities, EV or trading is added.
 
+## Verified observed-complete NFL history (Milestone 2E-D)
+
+    .venv/bin/python -m sportsiq.analysis.snapshot --snapshot data/snapshots/nfl/2026-10-19T053443Z --selection 49ers --cutoff 2026-10-19T23:00:00Z --format summary
+    .venv/bin/python -m sportsiq.analysis.snapshot --snapshot data/snapshots/nfl/2026-10-19T053443Z --selection rams --cutoff 2026-10-18T19:00:00Z --format json
+
+This separate offline path accepts only code-approved snapshot bytes with pinned provenance, licensing and inventory evidence. It preserves `observed_complete_by_snapshot` bounds without inventing exact final-whistle times. Ordinary fixtures and the legacy CSV adapter keep their strict validation; caller approval flags cannot authorize bound records. The existing real snapshot supplies ten eligible prior SF/WAS records, but is too late for a Rams pregame replay. JSON/readable outputs retain missing context and INSUFFICIENT_DATA selection assessments, not win probabilities or trading recommendations. The raw local snapshot is required for these commands and is not bundled into Git or unit tests. See `docs/nfl-observed-completion.md` and the generated `docs/nfl-observed-49ers-report.json` / `.txt` and `docs/nfl-observed-rams-report.json` / `.txt`.
+
 ## Sample schedule queries (offline fixtures)
 
     .venv/bin/python -m sportsiq schedule --league nfl --date 2026-09-13 --fixture tests/fixtures/nfl_scoreboard.json

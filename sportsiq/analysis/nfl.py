@@ -65,7 +65,7 @@ def _source_metadata(source, data_kind, cutoff):
     return metadata
 
 
-def _collect(payload, cutoff):
+def _collect(payload, cutoff, *, observed_evidence=None):
     sources, records, excluded = [], [], []
     ids = Counter(s['source_id'] for s in payload['sources']
                   if isinstance(s, dict) and _text(s.get('source_id')))
@@ -81,12 +81,13 @@ def _collect(payload, cutoff):
         retained = False
         for record in source['records']:
             try:
-                _validate_record(record, payload, metadata, cutoff)
+                _validate_record(record, payload, metadata, cutoff, observed_evidence=observed_evidence)
             except (ValueError, TypeError, KeyError):
                 # Reason codes are generated locally; never echo unsupported values.
                 reason = 'invalid_record'
                 if isinstance(record, dict) and record.get('kind') not in (
-                        'scheduled_game', 'game_result', 'kickoff_verification'):
+                        'scheduled_game', 'game_result', 'kickoff_verification',
+                        'observed_game_result', 'observed_scheduled_game'):
                     reason = 'unsupported_record_kind'
                 elif isinstance(record, dict) and record.get('kind') != 'kickoff_verification' and not metadata['feature_eligible']:
                     reason = 'source_not_available_before_cutoff'
@@ -96,10 +97,13 @@ def _collect(payload, cutoff):
             retained = True
         if retained:
             sources.append(metadata)
-    identities = Counter((r['kind'], r['game_id']) for r in records)
+    def identity(record):
+        kind = {'observed_game_result': 'game_result', 'observed_scheduled_game': 'scheduled_game'}.get(record['kind'], record['kind'])
+        return kind, record['game_id']
+    identities = Counter(identity(r) for r in records)
     unique = []
     for record in records:
-        if identities[(record['kind'], record['game_id'])] != 1:
+        if identities[identity(record)] != 1:
             excluded.append({'source_id': record['_source_id'], 'reason': 'ambiguous_record_identity',
                              'kind': record['kind'], 'game_id': record['game_id']})
         else:
@@ -107,7 +111,7 @@ def _collect(payload, cutoff):
     return sources, unique, excluded
 
 
-def _validate_record(record, payload, metadata, cutoff):
+def _validate_record(record, payload, metadata, cutoff, *, observed_evidence=None):
     if not isinstance(record, dict) or not _text(record.get('game_id')):
         raise ValueError('invalid_record')
     kind = record.get('kind')
@@ -123,21 +127,40 @@ def _validate_record(record, payload, metadata, cutoff):
     fields = {
         'scheduled_game': {'scheduled_kickoff'},
         'game_result': {'started_at', 'completed_at', 'status', 'home_points', 'away_points'},
+        'observed_scheduled_game': {'scheduled_kickoff'},
+        'observed_game_result': {'started_at', 'completed_no_later_than', 'completion_evidence',
+                                 'status', 'home_points', 'away_points'},
     }
     if not isinstance(kind, str) or kind not in fields or set(record) != common | fields[kind]:
         raise ValueError('unsupported_or_invalid_record_fields')
+    observed = kind in ('observed_game_result', 'observed_scheduled_game')
+    if observed:
+        # Only the file-verifying provider can issue this in-process capability.
+        # No JSON field or caller approval boolean can authorize a bound record.
+        from sportsiq.providers.nfl_snapshot import _VerifiedEvidence
+        if (type(observed_evidence) is not _VerifiedEvidence or metadata['data_kind'] != 'observed'
+                or not observed_evidence.permits(record, metadata)):
+            raise ValueError('verified_observed_evidence_required')
+    venue_known = type(record['neutral_site']) is bool
     if (type(record['season']) is not int or not 1920 <= record['season'] <= 3000
-            or record['season_type'] != 'REG' or type(record['neutral_site']) is not bool
+            or record['season_type'] != 'REG' or not (venue_known or (
+                kind == 'observed_scheduled_game' and record['neutral_site'] is None))
             or not all(_text(record[k]) and record[k] in payload['teams'] for k in ('home_team_id', 'away_team_id'))
             or record['home_team_id'] == record['away_team_id']):
         raise ValueError('invalid_game_identity_or_scope')
-    if kind == 'scheduled_game':
+    if kind in ('scheduled_game', 'observed_scheduled_game'):
         _instant(record['scheduled_kickoff'])
         return
     if (record['game_id'] in {leg['game_id'] for leg in payload['legs']}
             or record['status'] != 'final'
             or not all(type(record[k]) is int and 0 <= record[k] <= 200 for k in ('home_points', 'away_points'))):
         raise ValueError('ineligible_result')
+    if kind == 'observed_game_result':
+        started = _instant(record['started_at'])
+        bound = _instant(record['completed_no_later_than'])
+        if not started < bound < cutoff or bound != _instant(metadata['retrieved_at']):
+            raise ValueError('ineligible_observed_completion_bound')
+        return
     started, completed = _instant(record['started_at']), _instant(record['completed_at'])
     if not started < completed < cutoff or completed > _instant(metadata['revision_at']):
         raise ValueError('ineligible_result_time')
@@ -261,11 +284,11 @@ def _describe(leg, games, selected, opponent):
                 leg[direction].append(f'{name}: selected={a}, opponent={b}; supplied-history comparison only')
 
 
-def assess_nfl(payload):
+def assess_nfl(payload, *, observed_evidence=None):
     """Describe supplied evidence only; never issue a predictive selection rating."""
     _validate_input(payload)
     cutoff = _instant(payload['analysis_cutoff'])
-    sources, records, excluded = _collect(payload, cutoff)
+    sources, records, excluded = _collect(payload, cutoff, observed_evidence=observed_evidence)
     result = {
         'schema_version': 1, 'data_kind': payload['data_kind'], 'mode': payload['mode'],
         'analysis_cutoff': cutoff.isoformat(),
@@ -289,7 +312,8 @@ def assess_nfl(payload):
         }
         if excluded:
             leg['uncertainty'].append('Some supplied evidence was rejected; history may be incomplete')
-        schedules = [r for r in records if r['kind'] == 'scheduled_game' and r['game_id'] == selection['game_id']]
+        schedules = [r for r in records if r['kind'] in ('scheduled_game', 'observed_scheduled_game')
+                     and r['game_id'] == selection['game_id']]
         if len(schedules) == 1:
             target = schedules[0]
             leg['scheduled_kickoff'] = _instant(target['scheduled_kickoff']).isoformat()
@@ -322,10 +346,11 @@ def assess_nfl(payload):
             opponent = target['away_team_id'] if selected == target['home_team_id'] else target['home_team_id']
             leg['selected_team'] = payload['teams'][selected]
             leg['opponent_team'] = payload['teams'][opponent]
-            leg['selected_venue'] = 'neutral' if target['neutral_site'] else 'home' if selected == target['home_team_id'] else 'away'
-            games = [r for r in records if r['kind'] == 'game_result' and r['game_id'] not in target_ids
+            leg['selected_venue'] = ('unknown' if target['neutral_site'] is None else 'neutral'
+                                     if target['neutral_site'] else 'home' if selected == target['home_team_id'] else 'away')
+            games = [r for r in records if r['kind'] in ('game_result', 'observed_game_result') and r['game_id'] not in target_ids
                      and r['season'] == target['season'] and r['season_type'] == 'REG'
-                     and _instant(r['completed_at']) < cutoff]
+                     and _instant(r['completed_at'] if r['kind'] == 'game_result' else r['completed_no_later_than']) < cutoff]
             _describe(leg, games, selected, opponent)
         else:
             leg['missing_data'].append('target_schedule_unavailable')

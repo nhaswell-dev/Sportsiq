@@ -1,0 +1,27 @@
+Offline fixture assertions; external provenance is not independently authenticated
+NFL offline descriptive assessment | mode=historical
+Analysis cutoff: 2026-10-18T19:00:00+00:00
+Per-leg reports only; no combo probability or execution assessment.
+
+rams: LA yes | INSUFFICIENT_DATA
+  Market: KXNFLGAME-26OCT18ARILAR-LAR | game=2026_06_ARI_LA
+  Opponent: unknown
+  Scheduled: unknown | actual: unknown
+  Schedule sources:
+  Kickoff sources (chronology only):
+  Coverage: supplied validated games only; full season coverage unverified
+  Metrics: unavailable (evidence gates failed)
+  Evidence for: none identified
+  Evidence against: none identified
+  Missing: predictive_method_unvalidated; full_season_coverage_unverified; target_schedule_unavailable; snapshot_not_before_cutoff
+  Uncertainty: No validated predictive method; comparisons are not winning probabilities; Injuries, rosters, ratings and prices are not supported inputs
+
+Source provenance (fixture assertions; references are never fetched):
+Excluded evidence: 0
+
+Report generated: 2026-10-19T12:32:24.205191+00:00
+Snapshot status: BLOCKED
+Observed completion provenance (not exact completion timestamps):
+Capture: 2026-10-19T05:34:44.001488+00:00
+Raw SHA-256: d453d38c8d50086b9e2ce3dbb798d1bf57f981a9dd58025b4cf2c0a4ff15e9ee
+Missing snapshot evidence: ["snapshot_not_before_cutoff"]

@@ -34,7 +34,10 @@ def assessment_summary(result):
         for title, field in (('Evidence for', 'evidence_for'), ('Evidence against', 'evidence_against'),
                              ('Missing', 'missing_data'), ('Uncertainty', 'uncertainty')):
             lines.append('  ' + title + ': ' + ('; '.join(_safe(v) for v in leg[field]) or 'none identified'))
-    lines.append('\nSource provenance (fixture assertions; references are never fetched):')
+    source_note = ('pinned snapshot verified; no live references fetched'
+                   if result.get('snapshot_status') == 'ACCEPTED_OBSERVED_HISTORY'
+                   else 'fixture assertions; references are never fetched')
+    lines.append('\nSource provenance (' + source_note + '):')
     for source in result['sources']:
         lines.append('  ' + json.dumps(source, ensure_ascii=True, sort_keys=True))
     lines.append('Excluded evidence: ' + str(len(result['excluded'])))
