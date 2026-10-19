@@ -1,0 +1,3 @@
+game_id,season,game_type,gameday,gametime,home_team,away_team,home_score,away_score
+syn-la,2026,REG,2026-10-11,13:00,LA,ARI,24,10
+syn-sf,2026,REG,2026-10-12,20:15,SF,WAS,14,21

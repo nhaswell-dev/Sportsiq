@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": 1,
+      "url": "https://api.github.com/repos/nflverse/nfldata/license",
+      "title": "nfldata license API: no license returned",
+      "accessed": "2026-10-19",
+      "verification": {
+        "url": "https://api.github.com/repos/nflverse/nfldata/license",
+        "observed_at": "2026-10-19T04:28:53.056407+00:00",
+        "status": 404,
+        "headers": {},
+        "response": {
+          "message": "Not Found",
+          "documentation_url": "https://docs.github.com/rest/licenses/licenses#get-the-license-for-a-repository",
+          "status": "404"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "url": "https://api.github.com/repos/nflverse/nfldata",
+      "title": "nfldata GitHub repository metadata",
+      "accessed": "2026-10-19",
+      "verification": {
+        "url": "https://api.github.com/repos/nflverse/nfldata",
+        "observed_at": "2026-10-19T04:28:53.056945+00:00",
+        "status": 200,
+        "headers": {
+          "Date": "Mon, 19 Oct 2026 04:28:53 GMT",
+          "ETag": "W/\"c5a1fc5f53fbdf4102e0ba065eeaba3612e8228a27e2a2e472a83d9e9c186b0d\"",
+          "Last-Modified": "Mon, 19 Oct 2026 04:15:19 GMT"
+        },
+        "license": null,
+        "pushed_at": "2026-10-19T04:15:15Z",
+        "default_branch": "master"
+      }
+    },
+    {
+      "id": 3,
+      "url": "https://raw.githubusercontent.com/nflverse/nflverse-data/main/LICENSE.md",
+      "title": "nflverse-data published CC BY 4.0 license",
+      "accessed": "2026-10-19",
+      "verification": {
+        "url": "https://raw.githubusercontent.com/nflverse/nflverse-data/main/LICENSE.md",
+        "observed_at": "2026-10-19T04:28:53.057348+00:00",
+        "status": 200,
+        "headers": {
+          "ETag": "\"a1c256369c4f2fed723fff7eef159aee78cce8b3f7b8daa5e2df0d3528b4f97c\"",
+          "Date": "Mon, 19 Oct 2026 04:28:53 GMT"
+        },
+        "license_title": "Attribution 4.0 International"
+      }
+    },
+    {
+      "id": 4,
+      "url": "https://api.github.com/repos/nflverse/nflverse-data/releases/tags/pbp",
+      "title": "nflverse PBP release asset metadata",
+      "accessed": "2026-10-19",
+      "verification": {
+        "url": "https://api.github.com/repos/nflverse/nflverse-data/releases/tags/pbp",
+        "observed_at": "2026-10-19T04:28:53.057631+00:00",
+        "status": 200,
+        "headers": {
+          "Date": "Mon, 19 Oct 2026 04:28:53 GMT",
+          "ETag": "W/\"22d34da8b7f48dca0bb4e5f181a93f6af076d4bd29271dce4707d850cccad123\"",
+          "Last-Modified": "Mon, 19 Oct 2026 00:09:58 GMT"
+        },
+        "assets_2026": [
+          {
+            "name": "play_by_play_2026.csv",
+            "updated_at": "2026-10-19T00:09:58Z",
+            "size": 32147737,
+            "browser_download_url": "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_2026.csv"
+          },
+          {
+            "name": "play_by_play_2026.csv.gz",
+            "updated_at": "2026-10-19T00:09:58Z",
+            "size": 6290543,
+            "browser_download_url": "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_2026.csv.gz"
+          }
+        ]
+      }
+    }
+  ]
+}

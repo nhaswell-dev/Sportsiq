@@ -41,6 +41,13 @@ This separate offline-only consumer matches explicit NFL winner-rule team pairs 
 
 The example contains synthetic teams, statistics, source attestations and market identifiers, never actual NFL statistics. The pure service validates an explicit shared cutoff, source rights/reliability, timestamped availability, content hashes and separate kickoff evidence before describing supplied prior-game W/L/T, home/away/neutral splits, points scored/allowed and opponent-record strength. Every selection remains INSUFFICIENT_DATA: available descriptive metrics are not a calibrated prediction. Missing, ambiguous, unlicensed or post-cutoff evidence is excluded; no probabilities, EV, Supported/Avoid rating, source lookup, credential access or database write is added. Existing commands are unchanged. See `docs/nfl-pregame-assessment.md` for the exact fixture contract, provenance trust boundary and real Rams/49ers requirements, and `docs/nfl-pregame-data-audit.md` for 2E-A source/permission findings.
 
+## Historical NFL CSV adapter (Milestone 2E-C)
+
+    .venv/bin/python -m sportsiq.analysis.history --csv tests/fixtures/nfl_history_synthetic.csv --manifest tests/fixtures/nfl_history_synthetic.json --format summary
+    .venv/bin/python -m sportsiq.analysis.history --csv tests/fixtures/nfl_history_empty.csv --manifest tests/fixtures/nfl_history_blocked.json --format json
+
+The first invocation uses invented prior results with the two target matchup identities; it is explicitly SYNTHETIC_ONLY, not actual Rams/49ers statistics. The adapter binds CSV bytes to provenance, filters prior completed games, excludes targets and unavailable revisions, checks declared team-history inventories and reuses the existing assessment engine. Real mode is blocked until dataset rights and historical publication/completion evidence are independently established; a self-declared license flag cannot enable it. The second invocation reproduces the zero-metric INSUFFICIENT_DATA report in `docs/nfl-real-historical-report.json`. See `docs/nfl-real-historical-data.md` for source-verification receipts, limitations and the exact nine-column CSV/manifest contract. No live adapter, price history, probabilities, EV or trading is added.
+
 ## Sample schedule queries (offline fixtures)
 
     .venv/bin/python -m sportsiq schedule --league nfl --date 2026-09-13 --fixture tests/fixtures/nfl_scoreboard.json

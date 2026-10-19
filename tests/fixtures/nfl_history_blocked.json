@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "analysis": {
+    "schema_version": 1,
+    "data_kind": "observed",
+    "mode": "historical",
+    "analysis_cutoff": "2026-10-18T19:00:00Z",
+    "teams": {
+      "LA": "Los Angeles Rams",
+      "ARI": "Arizona Cardinals",
+      "SF": "San Francisco 49ers",
+      "WAS": "Washington Commanders"
+    },
+    "legs": [
+      {
+        "leg_id": "rams",
+        "game_id": "2026_06_ARI_LA",
+        "market_ticker": "KXNFLGAME-26OCT18ARILAR-LAR",
+        "side": "yes",
+        "selected_team_id": "LA"
+      },
+      {
+        "leg_id": "49ers",
+        "game_id": "2026_06_WAS_SF",
+        "market_ticker": "KXNFLGAME-26OCT19WASSF-SF",
+        "side": "yes",
+        "selected_team_id": "SF"
+      }
+    ],
+    "sources": []
+  },
+  "snapshot": null,
+  "raw_sha256": "99e2e4e39b0acb7877235562cd36197642a5f1a5d5bf980ef431d5322ac80558",
+  "row_evidence": {},
+  "coverage": null
+}

@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "analysis": {
+    "schema_version": 1,
+    "data_kind": "synthetic",
+    "mode": "prospective",
+    "analysis_cutoff": "2026-10-18T19:00:00Z",
+    "teams": {
+      "LA": "Los Angeles Rams (SYNTHETIC STATISTICS)",
+      "ARI": "Arizona Cardinals (SYNTHETIC STATISTICS)",
+      "SF": "San Francisco 49ers (SYNTHETIC STATISTICS)",
+      "WAS": "Washington Commanders (SYNTHETIC STATISTICS)"
+    },
+    "legs": [
+      {
+        "leg_id": "rams",
+        "game_id": "2026_06_ARI_LA",
+        "market_ticker": "KXNFLGAME-26OCT18ARILAR-LAR",
+        "side": "yes",
+        "selected_team_id": "LA"
+      },
+      {
+        "leg_id": "49ers",
+        "game_id": "2026_06_WAS_SF",
+        "market_ticker": "KXNFLGAME-26OCT19WASSF-SF",
+        "side": "yes",
+        "selected_team_id": "SF"
+      }
+    ],
+    "sources": [
+      {
+        "source_id": "synthetic-schedule",
+        "data_kind": "synthetic",
+        "provider": "SportsIQ synthetic test author",
+        "reference": "synthetic:synthetic-schedule",
+        "version": "synthetic-v1",
+        "reliable": true,
+        "reliability_evidence": "synthetic: authored deterministic fixture",
+        "license": {
+          "status": "approved",
+          "reference": "synthetic: original test data",
+          "allowed_uses": [
+            "analysis",
+            "display"
+          ],
+          "attribution": "SportsIQ synthetic fixture"
+        },
+        "published_at": "2026-10-17T12:00:00Z",
+        "revision_at": "2026-10-17T12:00:00Z",
+        "available_at": "2026-10-17T12:01:00Z",
+        "retrieved_at": "2026-10-20T12:02:00Z",
+        "availability_evidence": {
+          "kind": "synthetic",
+          "reference": "synthetic: immutable test snapshot",
+          "observed_at": "2026-10-17T12:01:00Z"
+        },
+        "records": [
+          {
+            "kind": "scheduled_game",
+            "game_id": "2026_06_ARI_LA",
+            "season": 2026,
+            "season_type": "REG",
+            "home_team_id": "LA",
+            "away_team_id": "ARI",
+            "neutral_site": false,
+            "scheduled_kickoff": "2026-10-18T20:05:00Z"
+          },
+          {
+            "kind": "scheduled_game",
+            "game_id": "2026_06_WAS_SF",
+            "season": 2026,
+            "season_type": "REG",
+            "home_team_id": "SF",
+            "away_team_id": "WAS",
+            "neutral_site": false,
+            "scheduled_kickoff": "2026-10-20T00:15:00Z"
+          }
+        ],
+        "content_sha256": "a55f68d61018323f4641ff55b7392d8b7695238e48ec104a56c0e9f7ae7c9dcb"
+      }
+    ]
+  },
+  "snapshot": {
+    "source_id": "synthetic-history",
+    "data_kind": "synthetic",
+    "provider": "SportsIQ synthetic test author",
+    "reference": "synthetic:synthetic-history",
+    "version": "synthetic-v1",
+    "reliable": true,
+    "reliability_evidence": "synthetic: authored deterministic fixture",
+    "license": {
+      "status": "approved",
+      "reference": "synthetic: original test data",
+      "allowed_uses": [
+        "analysis",
+        "display"
+      ],
+      "attribution": "SportsIQ synthetic fixture"
+    },
+    "published_at": "2026-10-17T12:00:00Z",
+    "revision_at": "2026-10-17T12:00:00Z",
+    "available_at": "2026-10-17T12:01:00Z",
+    "retrieved_at": "2026-10-20T12:02:00Z",
+    "availability_evidence": {
+      "kind": "synthetic",
+      "reference": "synthetic: immutable test snapshot",
+      "observed_at": "2026-10-17T12:01:00Z"
+    }
+  },
+  "raw_sha256": "b99918170a43489e1b663620346fb5e14f22856e8c31952da5b114ef3513ef25",
+  "row_evidence": {
+    "syn-la": {
+      "source_version": "synthetic-v1",
+      "reference": "synthetic:row-la",
+      "started_at": "2026-10-11T17:01:00Z",
+      "completed_at": "2026-10-11T20:00:00Z",
+      "status": "final",
+      "neutral_site": false
+    },
+    "syn-sf": {
+      "source_version": "synthetic-v1",
+      "reference": "synthetic:row-sf",
+      "started_at": "2026-10-13T00:15:23Z",
+      "completed_at": "2026-10-13T03:20:00Z",
+      "status": "final",
+      "neutral_site": false
+    }
+  },
+  "coverage": {
+    "source_version": "synthetic-v1",
+    "as_of": "2026-10-18T19:00:00Z",
+    "expected_game_ids": {
+      "LA": [
+        "syn-la"
+      ],
+      "ARI": [
+        "syn-la"
+      ],
+      "SF": [
+        "syn-sf"
+      ],
+      "WAS": [
+        "syn-sf"
+      ]
+    }
+  }
+}
