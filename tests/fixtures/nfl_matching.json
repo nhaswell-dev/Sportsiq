@@ -1,0 +1,17 @@
+{
+  "fixture_kind": "synthetic; not observed games or verified provider IDs",
+  "event_ticker": "KXNFLGAME-SYNTHETIC",
+  "market_ticker": "KXNFLGAME-SYNTHETIC-LAR",
+  "rules_primary": "If Los Angeles R wins the ARI Cardinals vs LA Rams Pro Football game originally scheduled for Oct 18, 2026, then the market resolves to Yes.",
+  "yes_sub_title": "Los Angeles R",
+  "no_sub_title": "Los Angeles R",
+  "games": [
+    {
+      "id": 900001,
+      "date": "2026-10-18T20:05:00Z",
+      "status_state": "scheduled",
+      "home_team": {"id": 9001, "full_name": "Los Angeles Rams", "abbreviation": "LAR"},
+      "visitor_team": {"id": 9002, "full_name": "Arizona Cardinals", "abbreviation": "ARI"}
+    }
+  ]
+}

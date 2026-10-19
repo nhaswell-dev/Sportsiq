@@ -28,6 +28,12 @@ On another machine, create a local environment with `python3 -m venv .venv` firs
 
 Choose explicit `--offline FIXTURE` or `--live`; output is structured JSON by default, or readable `--format summary`. The fixture is synthetic, not the historical reference combo. `--live --no-retries` permits one bounded workflow of at most two public HTTP attempts. No credentials, database, predictions, confidence grades, recommendations, or order operations are used. Exact selection identifiers, original metadata, distinct source time fields and gaps are retained. See `docs/kalshi-parlay.md` for the reference URL, safe live verification, fixture contract, classification limits, and historical-data caveats.
 
+## NFL game matching (Milestone 2D)
+
+    .venv/bin/python -m sportsiq.matching --extraction /path/extracted.json --games /path/saved-nfl-games-page.json --format summary
+
+This separate offline-only consumer matches explicit NFL winner-rule team pairs and original dates to BALLDONTLIE schedule evidence, with MATCHED, AMBIGUOUS, NOT_FOUND and UNSUPPORTED outcomes. It preserves YES/NO, source identities, UTC/Eastern times and historical-data gaps; it never treats occurrence as kickoff. The initial team allowlist is deliberately limited to ARI/LAR/SF/WAS and tested aliases. See `docs/nfl-market-matching.md` for limitations and `docs/nfl-combo-validation.txt` for the supplied 12-leg mixed-league combo report. No probabilities, recommendations, live matching command, storage writes or trading are added.
+
 ## Sample schedule queries (offline fixtures)
 
     .venv/bin/python -m sportsiq schedule --league nfl --date 2026-09-13 --fixture tests/fixtures/nfl_scoreboard.json

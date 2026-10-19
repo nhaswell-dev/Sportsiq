@@ -1,0 +1,51 @@
+Combo KXMVECROSSCATEGORY-S2026KRL562BKN32IAT7Y | 12 legs
+Coverage: supplied page only; not verified historical coverage
+01. Texas Tech YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-17T03:00:00+00:00 UTC / 2026-10-16T23:00:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT16ASUTTU market=KXNCAAFGAME-26OCT16ASUTTU-TTU
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+02. Texas YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-17T03:00:00+00:00 UTC / 2026-10-16T23:00:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT16FLATEX market=KXNCAAFGAME-26OCT16FLATEX-TEX
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+03. Louisville YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-17T03:00:00+00:00 UTC / 2026-10-16T23:00:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT16LOUSYR market=KXNCAAFGAME-26OCT16LOUSYR-LOU
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+04. LSU YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-17T03:00:00+00:00 UTC / 2026-10-16T23:00:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT16MSSTLSU market=KXNCAAFGAME-26OCT16MSSTLSU-LSU
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+05. New Mexico YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-17T03:00:00+00:00 UTC / 2026-10-16T23:00:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT16UNMHAW market=KXNCAAFGAME-26OCT16UNMHAW-UNM
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+06. Utah YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-17T03:00:00+00:00 UTC / 2026-10-16T23:00:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT16UTAHCOLO market=KXNCAAFGAME-26OCT16UTAHCOLO-UTAH
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+07. Alabama YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-17T22:30:00+00:00 UTC / 2026-10-17T18:30:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT17ALATENN market=KXNCAAFGAME-26OCT17ALATENN-ALA
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+08. Georgia YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-17T22:30:00+00:00 UTC / 2026-10-17T18:30:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT17AUBUGA market=KXNCAAFGAME-26OCT17AUBUGA-UGA
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+09. Miami (FL) YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-18T02:00:00+00:00 UTC / 2026-10-17T22:00:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT17FSUMIA market=KXNCAAFGAME-26OCT17FSUMIA-MIA
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+10. North Dakota St. YES | NCAAF | UNSUPPORTED | game=none
+    time=2026-10-18T02:00:00+00:00 UTC / 2026-10-17T22:00:00-04:00 ET occurrence only; NOT kickoff | source=Kalshi metadata; no provider match
+    event=KXNCAAFGAME-26OCT17NEVNDSU market=KXNCAAFGAME-26OCT17NEVNDSU-NDSU
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; only NFL game-winner series supported
+11. Los Angeles R YES | NFL | MATCHED | game=Arizona Cardinals at Los Angeles Rams (BALLDONTLIE 1392304)
+    time=2026-10-18T20:05:00+00:00 UTC / 2026-10-18T16:05:00-04:00 ET | source=balldontlie.games.date (current schedule metadata)
+    event=KXNFLGAME-26OCT18ARILAR market=KXNFLGAME-26OCT18ARILAR-LAR
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; occurrence differs from provider schedule; occurrence is not kickoff
+12. San Francisco YES | NFL | MATCHED | game=Washington Commanders at San Francisco 49ers (BALLDONTLIE 1392308)
+    time=2026-10-20T00:15:00+00:00 UTC / 2026-10-19T20:15:00-04:00 ET | source=balldontlie.games.date (current schedule metadata)
+    event=KXNFLGAME-26OCT19WASSF market=KXNFLGAME-26OCT19WASSF-SF
+    uncertainty: historical_kickoff_unverified; pregame_availability_unverified; occurrence differs from provider schedule; occurrence is not kickoff
+Missing pregame inputs (all legs): verified kickoff; point-in-time schedule/cutoff; injuries/rosters; team/player features; timestamped prices/rules; cross-leg dependence.
