@@ -61,6 +61,21 @@ This separate offline path accepts only code-approved snapshot bytes with pinned
 
 Use `--format json` for machine-readable stdout. Defaults reuse the existing saved twelve-leg projection and local historical snapshot; `--offline`, `--games`, and `--snapshot` select local inputs. Only explicit `--live` enables the existing public two-GET, no-retry Kalshi extractor; schedules/history stay offline. Mapping statuses are separate from SUPPORTED_EVIDENCE/INSUFFICIENT_DATA analysis. The supplied report has two MATCHED NFL legs and ten unsupported NCAAF legs; verified SF descriptive history is attached, while Rams remains insufficient. Default leg-specific cutoffs do not establish an original combo replay; `--cutoff` applies a common aware boundary and cannot bypass source gates. No probabilities, prices, recommendations, database/credential access or Telegram messaging is added. See `docs/consolidated-parlay-report.md` and generated `.json` / `.txt` reports for chronology, provenance, gaps and CLI contracts.
 
+## Manual Hermes invocation (Milestone 2F)
+
+`sportsiq.hermes_integration` accepts a bounded JSON request on stdin containing
+an exact `https://kalshi.com` market URL and optional `mode` (`offline` by default;
+only explicit `live-read-only` permits public retrieval). It invokes the existing
+consolidated CLI using the fixed project interpreter, working directory and
+argument array, and returns full report JSON plus bounded Telegram-friendly
+plain-text chunks. SUPPORTED_EVIDENCE is descriptive history, never a betting
+recommendation; selection/combo assessments remain INSUFFICIENT_DATA.
+
+See `docs/hermes-integration.md` for the verified Hermes `execute_code` procedure,
+input restrictions, failure behavior, offline fixture/snapshot limits and future
+Telegram approval checklist. No global Hermes configuration, installed skill,
+gateway, automatic message processing, trading or credential access is added.
+
 ## Sample schedule queries (offline fixtures)
 
     .venv/bin/python -m sportsiq schedule --league nfl --date 2026-09-13 --fixture tests/fixtures/nfl_scoreboard.json
