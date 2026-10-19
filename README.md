@@ -34,6 +34,13 @@ Choose explicit `--offline FIXTURE` or `--live`; output is structured JSON by de
 
 This separate offline-only consumer matches explicit NFL winner-rule team pairs and original dates to BALLDONTLIE schedule evidence, with MATCHED, AMBIGUOUS, NOT_FOUND and UNSUPPORTED outcomes. It preserves YES/NO, source identities, UTC/Eastern times and historical-data gaps; it never treats occurrence as kickoff. The initial team allowlist is deliberately limited to ARI/LAR/SF/WAS and tested aliases. See `docs/nfl-market-matching.md` for limitations and `docs/nfl-combo-validation.txt` for the supplied 12-leg mixed-league combo report. No probabilities, recommendations, live matching command, storage writes or trading are added.
 
+## Offline NFL pregame assessment (Milestone 2E-B)
+
+    .venv/bin/python -m sportsiq.analysis --fixture tests/fixtures/nfl_assessment_synthetic.json --format json
+    .venv/bin/python -m sportsiq.analysis --fixture tests/fixtures/nfl_assessment_synthetic.json --format summary
+
+The example contains synthetic teams, statistics, source attestations and market identifiers, never actual NFL statistics. The pure service validates an explicit shared cutoff, source rights/reliability, timestamped availability, content hashes and separate kickoff evidence before describing supplied prior-game W/L/T, home/away/neutral splits, points scored/allowed and opponent-record strength. Every selection remains INSUFFICIENT_DATA: available descriptive metrics are not a calibrated prediction. Missing, ambiguous, unlicensed or post-cutoff evidence is excluded; no probabilities, EV, Supported/Avoid rating, source lookup, credential access or database write is added. Existing commands are unchanged. See `docs/nfl-pregame-assessment.md` for the exact fixture contract, provenance trust boundary and real Rams/49ers requirements, and `docs/nfl-pregame-data-audit.md` for 2E-A source/permission findings.
+
 ## Sample schedule queries (offline fixtures)
 
     .venv/bin/python -m sportsiq schedule --league nfl --date 2026-09-13 --fixture tests/fixtures/nfl_scoreboard.json
@@ -134,7 +141,8 @@ The project-local `.venv` has no pip because system Python lacks `ensurepip`; th
 - `sportsiq/domain/`: shared `Game`, `Team`, `League`, and `GameStatus` types.
 - `sportsiq/providers/`: schedule contract, fixture parsers, local JSON source, opt-in BALLDONTLIE Games client/adapters.
 - `sportsiq/storage/schedule.py`: validated SQLite imports, source-scoped games, change history, stored queries, and stale reports.
-- `sportsiq/analysis/`, `sportsiq/reports/`: reserved modules for future milestones, currently empty.
+- `sportsiq/analysis/`: offline fixture-first NFL descriptive assessment and its standalone module CLI.
+- `sportsiq/reports/`: terminal-safe discovery, NFL matching and descriptive assessment reports.
 - `sportsiq/cli.py`: offline-default, opt-in BALLDONTLIE league-selectable schedule query.
 - `tests/`: five original NFL tests plus multi-sport/NBA tests and synthetic JSON fixtures.
 - `docs/architecture.md`: source boundaries, historical-data options and future read-only matching.

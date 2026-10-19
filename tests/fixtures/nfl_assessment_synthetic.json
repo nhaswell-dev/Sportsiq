@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "data_kind": "synthetic",
+  "mode": "historical",
+  "analysis_cutoff": "2026-10-18T19:00:00Z",
+  "teams": {
+    "SYN-H": "Synthetic Harbor",
+    "SYN-V": "Synthetic Valley",
+    "SYN-O": "Synthetic Oak",
+    "SYN-B": "Synthetic Birch"
+  },
+  "legs": [
+    {
+      "leg_id": "synthetic-leg",
+      "market_ticker": "SYNTHETIC-NFL-H-V-H",
+      "side": "yes",
+      "selected_team_id": "SYN-H",
+      "game_id": "synthetic-target"
+    },
+    {
+      "leg_id": "synthetic-leg-2",
+      "market_ticker": "SYNTHETIC-NFL-O-B-B",
+      "side": "yes",
+      "selected_team_id": "SYN-B",
+      "game_id": "synthetic-target-2"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "history",
+      "data_kind": "synthetic",
+      "provider": "SportsIQ synthetic test author",
+      "reference": "synthetic:history",
+      "version": "synthetic-v1",
+      "reliable": true,
+      "reliability_evidence": "synthetic: authored deterministic fixture",
+      "license": {
+        "status": "approved",
+        "reference": "synthetic: original test data",
+        "allowed_uses": [
+          "analysis",
+          "display"
+        ],
+        "attribution": "SportsIQ synthetic fixture"
+      },
+      "published_at": "2026-10-17T12:00:00Z",
+      "revision_at": "2026-10-17T12:00:00Z",
+      "available_at": "2026-10-17T12:01:00Z",
+      "retrieved_at": "2026-10-20T12:02:00Z",
+      "availability_evidence": {
+        "kind": "synthetic",
+        "reference": "synthetic: immutable test snapshot",
+        "observed_at": "2026-10-17T12:01:00Z"
+      },
+      "records": [
+        {
+          "kind": "scheduled_game",
+          "game_id": "synthetic-target",
+          "season": 2026,
+          "season_type": "REG",
+          "home_team_id": "SYN-H",
+          "away_team_id": "SYN-V",
+          "scheduled_kickoff": "2026-10-18T20:05:00Z",
+          "neutral_site": false
+        },
+        {
+          "kind": "game_result",
+          "game_id": "synthetic-prior-1",
+          "season": 2026,
+          "season_type": "REG",
+          "home_team_id": "SYN-H",
+          "away_team_id": "SYN-O",
+          "started_at": "2026-10-11T17:00:00Z",
+          "completed_at": "2026-10-11T20:00:00Z",
+          "home_points": 28,
+          "away_points": 14,
+          "status": "final",
+          "neutral_site": false
+        },
+        {
+          "kind": "game_result",
+          "game_id": "synthetic-prior-2",
+          "season": 2026,
+          "season_type": "REG",
+          "home_team_id": "SYN-B",
+          "away_team_id": "SYN-H",
+          "started_at": "2026-10-11T17:00:00Z",
+          "completed_at": "2026-10-11T20:00:00Z",
+          "home_points": 21,
+          "away_points": 14,
+          "status": "final",
+          "neutral_site": false
+        },
+        {
+          "kind": "game_result",
+          "game_id": "synthetic-prior-3",
+          "season": 2026,
+          "season_type": "REG",
+          "home_team_id": "SYN-V",
+          "away_team_id": "SYN-B",
+          "started_at": "2026-10-11T17:00:00Z",
+          "completed_at": "2026-10-11T20:00:00Z",
+          "home_points": 10,
+          "away_points": 24,
+          "status": "final",
+          "neutral_site": false
+        },
+        {
+          "kind": "game_result",
+          "game_id": "synthetic-prior-4",
+          "season": 2026,
+          "season_type": "REG",
+          "home_team_id": "SYN-O",
+          "away_team_id": "SYN-V",
+          "started_at": "2026-10-11T17:00:00Z",
+          "completed_at": "2026-10-11T20:00:00Z",
+          "home_points": 14,
+          "away_points": 21,
+          "status": "final",
+          "neutral_site": false
+        },
+        {
+          "kind": "game_result",
+          "game_id": "synthetic-prior-5",
+          "season": 2026,
+          "season_type": "REG",
+          "home_team_id": "SYN-O",
+          "away_team_id": "SYN-B",
+          "started_at": "2026-10-11T17:00:00Z",
+          "completed_at": "2026-10-11T20:00:00Z",
+          "home_points": 17,
+          "away_points": 7,
+          "status": "final",
+          "neutral_site": false
+        },
+        {
+          "kind": "scheduled_game",
+          "game_id": "synthetic-target-2",
+          "season": 2026,
+          "season_type": "REG",
+          "home_team_id": "SYN-O",
+          "away_team_id": "SYN-B",
+          "scheduled_kickoff": "2026-10-19T00:15:00Z",
+          "neutral_site": false
+        }
+      ],
+      "content_sha256": "0fb9cab0032a5d868b1179e0ad77d3e394171138ca770138ec0ef7900f546b91"
+    },
+    {
+      "source_id": "kickoff",
+      "data_kind": "synthetic",
+      "provider": "SportsIQ synthetic test author",
+      "reference": "synthetic:kickoff",
+      "version": "synthetic-v1",
+      "reliable": true,
+      "reliability_evidence": "synthetic: authored deterministic fixture",
+      "license": {
+        "status": "approved",
+        "reference": "synthetic: original test data",
+        "allowed_uses": [
+          "analysis",
+          "display"
+        ],
+        "attribution": "SportsIQ synthetic fixture"
+      },
+      "published_at": "2026-10-19T12:00:00Z",
+      "revision_at": "2026-10-19T12:00:00Z",
+      "available_at": "2026-10-19T12:01:00Z",
+      "retrieved_at": "2026-10-20T12:02:00Z",
+      "availability_evidence": {
+        "kind": "synthetic",
+        "reference": "synthetic: immutable test snapshot",
+        "observed_at": "2026-10-19T12:01:00Z"
+      },
+      "records": [
+        {
+          "kind": "kickoff_verification",
+          "game_id": "synthetic-target",
+          "actual_kickoff": "2026-10-18T20:05:18Z"
+        },
+        {
+          "kind": "kickoff_verification",
+          "game_id": "synthetic-target-2",
+          "actual_kickoff": "2026-10-19T00:15:23Z"
+        }
+      ],
+      "content_sha256": "fd2344aa8f467b2080320d7e275c6b254d428bd20da20cccdb231795a90ddbd5"
+    }
+  ]
+}
